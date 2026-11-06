@@ -44,7 +44,7 @@ A lista de requisitos funcionais e estruturais mapeados para o desenvolvimento d
 
 A execução do código no terminal (`dotnet run`) validou com sucesso a criação correta de um objeto e a proteção contra dados inválidos:
 
-![Testes da Sprint 1](./Trabalho POO/teste-sprint1.png)
+![Testes da Sprint 1](./teste-sprint1.png)
 
 ```text
 === UrbanDrive - Testes da Sprint 1 ===
