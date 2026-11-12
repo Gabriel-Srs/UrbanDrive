@@ -55,27 +55,9 @@ A lista de requisitos funcionais e estruturais mapeados para o desenvolvimento d
 
 A execução do código no terminal (`dotnet run`) validou com sucesso a criação correta de um objeto e a proteção contra dados inválidos:
 
-![Testes da Sprint 1](./Trabalho POO/teste-sprint1.png)
+![Testes da Sprint 1](./teste-sprint1.png)
 
 ```text
 === UrbanDrive - Testes da Sprint 1 ===
 ID: V001 | Modelo: Fiat Mobi | Placa: ABC-1234 | Diária: R$ 90,00
 Erro capturado: A placa não pode ser nula ou vazia.
-
-
-
-# RELATÓRIO DE AVALIAÇÃO — SPRINT 2
-**Projeto:** UrbanDrive  
-**Curso:** Análise e Desenvolvimento de Sistemas (PUC Minas)  
-
-### Sprint 2: Relacionamentos e membros estáticos
-
-| Responsável | Tarefa/Requisito | Iniciado em | Prazo | Status | Terminado em |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| Gabriel Soares | PBI-02 / RF03: CNH e Motorista (composição) | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
-| Samuel Elias | PBI-03 / RF04: Frota (agregação com Veiculo) | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
-| Samuel Elias | PBI-04 / RF07: ConfiguradorSistema + contador estático | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
-| Gabriel Soares | PBI-05 / RF05: Locacao (associação Motorista–Veiculo) | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
-| Gabriel Soares | Diagrama de classes atualizado | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
-| Samuel Elias | Testes de integração e dos membros estáticos | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
-| Gabriel Soares / Samuel Elias | Planejamento, backlog atualizado e retrospectiva da Sprint 2 | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
