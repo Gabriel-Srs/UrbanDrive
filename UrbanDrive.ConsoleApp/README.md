@@ -61,3 +61,24 @@ A execução do código no terminal (`dotnet run`) validou com sucesso a criaç�
 === UrbanDrive - Testes da Sprint 1 ===
 ID: V001 | Modelo: Fiat Mobi | Placa: ABC-1234 | Diária: R$ 90,00
 Erro capturado: A placa não pode ser nula ou vazia.
+<<<<<<< HEAD
+
+
+
+# RELATÓRIO DE AVALIAÇÃO — SPRINT 2
+**Projeto:** UrbanDrive  
+**Curso:** Análise e Desenvolvimento de Sistemas (PUC Minas)  
+
+### Sprint 2: Relacionamentos e membros estáticos
+
+| Responsável | Tarefa/Requisito | Iniciado em | Prazo | Status | Terminado em |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| Gabriel Soares | PBI-02 / RF03: CNH e Motorista (composição) | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+| Samuel Elias | PBI-03 / RF04: Frota (agregação com Veiculo) | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+| Samuel Elias | PBI-04 / RF07: ConfiguradorSistema + contador estático | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+| Gabriel Soares | PBI-05 / RF05: Locacao (associação Motorista–Veiculo) | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+| Gabriel Soares | Diagrama de classes atualizado | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+| Samuel Elias | Testes de integração e dos membros estáticos | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+| Gabriel Soares / Samuel Elias | Planejamento, backlog atualizado e retrospectiva da Sprint 2 | --/--/2026 | --/--/2026 | ⏳ | --/--/2026 |
+=======
+>>>>>>> b4e3a2e3187f10199a618a90a302ceb2cdfa7a15
