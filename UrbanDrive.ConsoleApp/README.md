@@ -56,12 +56,12 @@ A execução do código no terminal (`dotnet run`) validou com sucesso a criaç�
 
 ![Testes da Sprint 1](./Trabalho POO/teste-sprint1.png)
 
-```text
+
 === UrbanDrive - Testes da Sprint 1 ===
 ID: V001 | Modelo: Fiat Mobi | Placa: ABC-1234 | Diária: R$ 90,00
 Erro capturado: A placa não pode ser nula ou vazia.
 
-
+---
 
 # RELATÓRIO DE AVALIAÇÃO — SPRINT 2
 **Projeto:** UrbanDrive  
