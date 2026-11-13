@@ -1,49 +1,50 @@
-using System;
-
 namespace UrbanDrive.ConsoleApp.Models
 {
+    // Protótipo adiantado da Sprint 3 (herança). As regras específicas entram na Sprint 3.
     public class Carro : Veiculo
     {
         // Atributos privados específicos de Carro
         private int quantidadePortas;
-        private string tipoCombustivel;
+        private string tipoCombustivel = string.Empty;
 
-        // Construtor que repassa os dados base para a classe Pai (Veiculo) usando o 'base'
-        public Carro(string identificador, string placa, string modelo, decimal valorBaseDiaria, int quantidadePortas, string tipoCombustivel)
+        // Construtor que repassa os dados comuns para a classe-base usando "base"
+        public Carro(string identificador, string placa, string modelo, decimal valorBaseDiaria,
+                     int quantidadePortas, string tipoCombustivel)
             : base(identificador, placa, modelo, valorBaseDiaria)
         {
             QuantidadePortas = quantidadePortas;
             TipoCombustivel = tipoCombustivel;
         }
 
-        // Propriedade para Quantidade de Portas com validação
         public int QuantidadePortas
         {
             get { return quantidadePortas; }
-            set 
+            set
             {
                 if (value <= 0)
-                    throw new ArgumentException("A quantidade de portas deve ser maior que zero.");
-                quantidadePortas = value; 
+                    throw new ArgumentOutOfRangeException(nameof(QuantidadePortas), value,
+                        "A quantidade de portas deve ser maior que zero.");
+
+                quantidadePortas = value;
             }
         }
 
-        // Propriedade para Tipo de Combustível com validação
         public string TipoCombustivel
         {
             get { return tipoCombustivel; }
-            set 
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("O tipo de combustível não pode ser vazio.");
-                tipoCombustivel = value; 
+                    throw new ArgumentException("O tipo de combustível não pode ser vazio.", nameof(TipoCombustivel));
+
+                tipoCombustivel = value.Trim();
             }
         }
 
-        // Polimorfismo: sobrescrevemos o método virtual para exibir os dados específicos do carro
-        public override void ExibirDetalhes()
+        // Reaproveita o texto da classe-base em vez de repetir os campos comuns
+        public override string ToString()
         {
-            Console.WriteLine($"[Carro] ID: {Identificador} | Modelo: {Modelo} | Placa: {Placa} | Portas: {QuantidadePortas} | Combustível: {TipoCombustivel} | Diária: R$ {ValorBaseDiaria:F2}");
+            return $"[Carro] {base.ToString()} | Portas: {QuantidadePortas} | Combustível: {TipoCombustivel}";
         }
     }
 }
