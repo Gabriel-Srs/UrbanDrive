@@ -4,25 +4,28 @@ namespace UrbanDrive.ConsoleApp.Models
 {
     public class Veiculo
     {
-        // Placa no padrão antigo (ABC1234) ou Mercosul (ABC1D23), já sem hífen e em maiúsculas
+        // Formato da placa (antigo ou Mercosul)
         private static readonly Regex FormatoPlaca = new Regex(@"^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$");
 
-        // Atributos privados (inicializados para eliminar os avisos CS8618)
+        // Atributos
         private string identificador = string.Empty;
         private string placa = string.Empty;
         private string modelo = string.Empty;
         private decimal valorBaseDiaria;
 
-        // Construtor: passa pelas propriedades para reaproveitar as validações
+        // Construtor
         public Veiculo(string identificador, string placa, string modelo, decimal valorBaseDiaria)
         {
             Identificador = identificador;
             Placa = placa;
             Modelo = modelo;
             ValorBaseDiaria = valorBaseDiaria;
+
+            // Contador de veículos
+            ConfiguradorSistema.RegistrarVeiculo();
         }
 
-        // Identificador: só pode ser definido na criação do objeto (set privado)
+        // Propriedades
         public string Identificador
         {
             get { return identificador; }
@@ -35,8 +38,6 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
-        // Placa: só pode ser definida na criação do objeto (set privado).
-        // Aceita "ABC-1234", "abc1234" ou "ABC1D23" e armazena normalizada (ex.: "ABC1234").
         public string Placa
         {
             get { return placa; }
@@ -56,7 +57,6 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
-        // Modelo: pode ser corrigido depois da criação, sempre passando pela validação
         public string Modelo
         {
             get { return modelo; }
@@ -69,7 +69,6 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
-        // Valor-base da diária: pode ser reajustado, mas precisa ser maior que zero
         public decimal ValorBaseDiaria
         {
             get { return valorBaseDiaria; }
@@ -83,8 +82,7 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
-        // Representação textual do veículo. A entidade não escreve no console:
-        // quem decide onde exibir é a aplicação (Program).
+        // Exibição
         public override string ToString()
         {
             return $"ID: {Identificador} | Modelo: {Modelo} | Placa: {Placa} | Diária: R$ {ValorBaseDiaria:F2}";

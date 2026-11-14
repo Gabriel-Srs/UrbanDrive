@@ -1,13 +1,13 @@
 namespace UrbanDrive.ConsoleApp.Models
 {
-    // Protótipo adiantado da Sprint 3 (herança). As regras específicas entram na Sprint 3.
     public class Carro : Veiculo
     {
-        // Atributos privados específicos de Carro
+        // Atributos
+
         private int quantidadePortas;
         private string tipoCombustivel = string.Empty;
 
-        // Construtor que repassa os dados comuns para a classe-base usando "base"
+        // Construtor
         public Carro(string identificador, string placa, string modelo, decimal valorBaseDiaria,
                      int quantidadePortas, string tipoCombustivel)
             : base(identificador, placa, modelo, valorBaseDiaria)
@@ -16,6 +16,7 @@ namespace UrbanDrive.ConsoleApp.Models
             TipoCombustivel = tipoCombustivel;
         }
 
+        // Propriedades
         public int QuantidadePortas
         {
             get { return quantidadePortas; }
@@ -41,7 +42,7 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
-        // Reaproveita o texto da classe-base em vez de repetir os campos comuns
+        // Exibição
         public override string ToString()
         {
             return $"[Carro] {base.ToString()} | Portas: {QuantidadePortas} | Combustível: {TipoCombustivel}";
