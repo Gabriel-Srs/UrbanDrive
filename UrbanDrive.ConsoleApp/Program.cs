@@ -15,6 +15,7 @@ namespace UrbanDrive.ConsoleApp
 
             TestarSprint1Veiculo();
             TestarSprint2ConfiguradorSistema();
+            TestarSprint2Frota();
 
             Console.WriteLine();
             Console.WriteLine($"Resultado: {aprovados} aprovados, {reprovados} reprovados.");
@@ -95,6 +96,54 @@ namespace UrbanDrive.ConsoleApp
 
             ConfiguradorSistema.TaxaServico = ConfiguradorSistema.TaxaServicoPadrao;
             Console.WriteLine($"Taxa restaurada para {ConfiguradorSistema.TaxaServico:P0}.");
+            Console.WriteLine();
+        }
+
+        // Sprint 2 - Frota
+        private static void TestarSprint2Frota()
+        {
+            Console.WriteLine("##### Sprint 2: Frota #####");
+            Console.WriteLine();
+
+            Console.WriteLine("--- Criação e adição de veículos ---");
+            var frota = new Frota("Frota Centro");
+            var gol = new Veiculo("F001", "JKL-2345", "VW Gol", 95m);
+            var argo = new Carro("F002", "MNO6P78", "Fiat Argo", 115m, 4, "Flex");
+
+            frota.AdicionarVeiculo(gol);
+            frota.AdicionarVeiculo(argo);
+            Console.WriteLine(frota);
+            foreach (Veiculo veiculo in frota.Veiculos)
+                Console.WriteLine($"  {veiculo}");
+
+            Verificar("Frota com 2 veículos adicionados", frota.Quantidade == 2);
+            Verificar("Busca por placa 'jkl2345' encontra o Gol", frota.BuscarPorPlaca("jkl2345") == gol);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Validações (devem ser rejeitadas) ---");
+            DeveFalhar("Frota com nome vazio", () => new Frota(""));
+            DeveFalhar("Adicionar veículo nulo", () => frota.AdicionarVeiculo(null!));
+            DeveFalhar("Adicionar o mesmo veículo duas vezes", () => frota.AdicionarVeiculo(gol));
+            DeveFalhar("Adicionar outro veículo com placa repetida",
+                () => frota.AdicionarVeiculo(new Veiculo("F003", "JKL2345", "Outro Gol", 90m)));
+            Verificar("Após as tentativas inválidas, a frota continua com 2 veículos", frota.Quantidade == 2);
+            Verificar("A lista exposta é somente leitura",
+                ((ICollection<Veiculo>)frota.Veiculos).IsReadOnly);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Remoção (agregação) ---");
+            Verificar("Remover o Gol da frota retorna true", frota.RemoverVeiculo("JKL-2345"));
+            Verificar("Frota fica com 1 veículo", frota.Quantidade == 1);
+            Verificar("Remover placa inexistente retorna false", !frota.RemoverVeiculo("ZZZ9999"));
+
+            gol.ValorBaseDiaria = 99m;
+            Verificar("O Gol continua existindo e utilizável fora da frota",
+                gol.Modelo == "VW Gol" && gol.ValorBaseDiaria == 99m);
+
+            var frotaNorte = new Frota("Frota Norte");
+            frotaNorte.AdicionarVeiculo(gol);
+            Verificar("O Gol removido pode ser adicionado a outra frota", frotaNorte.Quantidade == 1);
+            Console.WriteLine($"  {gol}");
             Console.WriteLine();
         }
 
