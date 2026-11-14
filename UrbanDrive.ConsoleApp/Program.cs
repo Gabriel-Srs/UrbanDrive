@@ -17,6 +17,7 @@ namespace UrbanDrive.ConsoleApp
             TestarSprint2ConfiguradorSistema();
             TestarSprint2Frota();
             TestarSprint2MotoristaCnh();
+            TestarSprint2Locacao();
 
             Console.WriteLine();
             Console.WriteLine($"Resultado: {aprovados} aprovados, {reprovados} reprovados.");
@@ -208,6 +209,68 @@ namespace UrbanDrive.ConsoleApp
             Verificar(
                 "Número da CNH possui 11 dígitos",
                 motorista.CNH.Numero.Length == 11);
+            Console.WriteLine();
+        }
+
+        // Sprint 2 - Locacao (integração entre os objetos)
+        private static void TestarSprint2Locacao()
+        {
+            Console.WriteLine("##### Sprint 2: Locacao (integração) #####");
+            Console.WriteLine();
+
+            var dataRetirada = new DateTime(2026, 11, 14);
+            var maria = new Motorista("Maria Souza", "98765432100", "B", new DateTime(2028, 6, 30));
+            var kwid = new Veiculo("L001", "QRS-1234", "Renault Kwid", 100m);
+            var hb20 = new Carro("L002", "TUV5W67", "Hyundai HB20", 150m, 4, "Flex");
+
+            var frota = new Frota("Frota Locação");
+            frota.AdicionarVeiculo(kwid);
+            frota.AdicionarVeiculo(hb20);
+
+            Console.WriteLine("--- Locação com veículo buscado na frota ---");
+            Veiculo? veiculoEscolhido = frota.BuscarPorPlaca("qrs1234");
+            Verificar("Veículo encontrado na frota pela placa", veiculoEscolhido == kwid);
+
+            var locacao = new Locacao(maria, veiculoEscolhido!, 3, dataRetirada);
+            Console.WriteLine(locacao);
+
+            Verificar("A locação referencia o mesmo motorista (associação)", locacao.Motorista == maria);
+            Verificar("A locação referencia o mesmo veículo da frota (associação)", locacao.Veiculo == kwid);
+            Verificar("Total com taxa padrão: 3 dias x R$ 100,00 x 1,10 = R$ 330,00",
+                locacao.CalcularValorTotal() == 330.00m);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Taxa compartilhada (ConfiguradorSistema) ---");
+            ConfiguradorSistema.TaxaServico = 0.20m;
+            Verificar("Com taxa de 20%, a mesma locação passa a custar R$ 360,00",
+                locacao.CalcularValorTotal() == 360.00m);
+            ConfiguradorSistema.TaxaServico = ConfiguradorSistema.TaxaServicoPadrao;
+            Verificar("Com a taxa restaurada para 10%, o total volta a R$ 330,00",
+                locacao.CalcularValorTotal() == 330.00m);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Locação de um Carro (herança) ---");
+            var locacaoCarro = new Locacao(maria, hb20, 2, dataRetirada);
+            Console.WriteLine(locacaoCarro);
+            Verificar("Total do Carro: 2 dias x R$ 150,00 x 1,10 = R$ 330,00",
+                locacaoCarro.CalcularValorTotal() == 330.00m);
+            Verificar("O mesmo motorista pode ter mais de uma locação", locacaoCarro.Motorista == locacao.Motorista);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Validade da CNH ---");
+            var joao = new Motorista("João Lima", "11122233344", "B", new DateTime(2025, 1, 31));
+            DeveFalhar("Motorista com CNH vencida na data de retirada",
+                () => new Locacao(joao, kwid, 2, dataRetirada));
+            var locacaoNoLimite = new Locacao(joao, kwid, 1, new DateTime(2025, 1, 31));
+            Verificar("Retirada no último dia de validade da CNH é aceita", locacaoNoLimite.Dias == 1);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Validações (devem ser rejeitadas) ---");
+            DeveFalhar("Locação com motorista nulo", () => new Locacao(null!, kwid, 2, dataRetirada));
+            DeveFalhar("Locação com veículo nulo", () => new Locacao(maria, null!, 2, dataRetirada));
+            DeveFalhar("Locação com 0 dias", () => new Locacao(maria, kwid, 0, dataRetirada));
+            DeveFalhar("Locação com dias negativos", () => new Locacao(maria, kwid, -3, dataRetirada));
+
             Console.WriteLine();
         }
 
