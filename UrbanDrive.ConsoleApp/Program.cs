@@ -44,6 +44,62 @@ namespace UrbanDrive.ConsoleApp
 
             Console.WriteLine();
             Console.WriteLine($"Resultado: {aprovados} aprovados, {reprovados} reprovados.");
+
+            Console.WriteLine();
+            Console.WriteLine("--- T2.1 - Motorista e CNH ---");
+
+            var motorista = new Motorista(
+            "João Silva",
+            "12345678901",
+            "B",
+            new DateTime(2027, 10, 15));
+
+            Verificar(
+                "Motorista possui CNH válida",
+                !motorista.CNH.EstaVencida(DateTime.Now));
+
+            DeveFalhar(
+                "CNH com número de 10 dígitos",
+                () => new Motorista(
+                "João Silva",
+                "1234567890",
+                "B",
+            new DateTime(2027, 10, 15)));
+
+            DeveFalhar(
+                "CNH com número de 12 dígitos",
+                () => new Motorista(
+                "João Silva",
+                "123456789012",
+                "B",
+            new DateTime(2027, 10, 15)));
+
+            DeveFalhar(
+                "CNH com letra no número",
+                () => new Motorista(
+                    "João Silva",
+                    "1234567890A",
+                    "B",
+                    new DateTime(2027, 10, 15)));
+
+            DeveFalhar(
+                "CNH com categoria vazia",
+                () => new Motorista(
+                    "João Silva",
+                    "12345678901",
+                    "",
+                    new DateTime(2027, 10, 15)));
+
+            Verificar(
+                "Categoria da CNH é B",
+                motorista.CNH.Categoria == "B");
+
+            Console.WriteLine($"Número da CNH: {motorista.CNH.Numero}");
+            Console.WriteLine($"Quantidade de dígitos: {motorista.CNH.Numero.Length}");
+
+            Verificar(
+                "Número da CNH possui 11 dígitos",
+                motorista.CNH.Numero.Length == 11);
         }
 
         // Cenário que deve lançar ArgumentException (ou derivada, como ArgumentOutOfRangeException)
@@ -73,5 +129,8 @@ namespace UrbanDrive.ConsoleApp
             if (passou) aprovados++; else reprovados++;
             Console.WriteLine($"[{(passou ? "OK" : "FALHOU")}] {cenario}: {detalhe}");
         }
+
+
+
     }
 }
