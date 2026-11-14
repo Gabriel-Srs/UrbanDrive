@@ -64,7 +64,7 @@ classDiagram
     class CNH {
         -string numero
         -string categoria
-        +CNH(numero, categoria, dataValidade)
+        ~CNH(numero, categoria, dataValidade)
         +string Numero
         +string Categoria
         +DateTime DataValidade
@@ -72,11 +72,18 @@ classDiagram
     }
 
     class Locacao {
-        <<planejada>>
+        -Motorista motorista
+        -Veiculo veiculo
+        -int dias
+        -DateTime dataRetirada
+        +Locacao(motorista, veiculo, dias, dataRetirada)
         +Motorista Motorista
         +Veiculo Veiculo
         +int Dias
+        +DateTime DataRetirada
+        -ValidarCnh()
         +CalcularValorTotal() decimal
+        +ToString() string
     }
 
     Veiculo <|-- Carro : herança
@@ -86,6 +93,7 @@ classDiagram
     Locacao "0..*" --> "1" Veiculo : associação
     Veiculo ..> ConfiguradorSistema : registra no contador
     Locacao ..> ConfiguradorSistema : usa TaxaServico
+    Locacao ..> CNH : valida a validade
 ```
 
 ## Legenda
@@ -104,8 +112,8 @@ classDiagram
 
 - **Herança — `Carro` → `Veiculo`:** `Carro` reaproveita os dados e as validações de `Veiculo` e repassa os valores comuns pelo construtor com `base`.
 - **Agregação — `Frota` ◇ `Veiculo`:** os veículos são criados fora da frota e apenas adicionados a ela. Ao serem removidos, continuam existindo e podem entrar em outra frota.
-- **Composição — `Motorista` ◆ `CNH`:** a `CNH` é criada dentro do construtor de `Motorista`, a partir dos dados recebidos, e não pode ser trocada por fora.
-- **Associação — `Locacao` → `Motorista` e `Veiculo`:** a locação referencia um motorista e um veículo que existem independentemente dela.
+- **Composição — `Motorista` ◆ `CNH`:** a `CNH` é criada dentro do construtor de `Motorista`, a partir dos dados recebidos, e não pode ser trocada por fora. O construtor da `CNH` é `internal`, indicando que ela não deve ser criada de forma independente.
+- **Associação — `Locacao` → `Motorista` e `Veiculo`:** a locação referencia um motorista e um veículo que existem independentemente dela. Ao ser criada, rejeita motorista com CNH vencida na data de retirada.
 - **Membros estáticos — `ConfiguradorSistema`:** classe estática com a taxa de serviço e o contador de veículos, compartilhados por todo o sistema. `Veiculo` registra cada veículo criado com sucesso, e `Locacao` usa a taxa no cálculo do valor total.
 
 ## Situação das classes
@@ -116,6 +124,6 @@ classDiagram
 | `Carro` | 1 (protótipo da Sprint 3) | Implementada |
 | `ConfiguradorSistema` | 2 | Implementada |
 | `Frota` | 2 | Implementada |
-| `Motorista` | 2 | Em desenvolvimento |
-| `CNH` | 2 | Em desenvolvimento |
-| `Locacao` | 2 | Planejada: membros representados conforme o planejamento, a revisar quando implementada |
+| `Motorista` | 2 | Implementada |
+| `CNH` | 2 | Implementada |
+| `Locacao` | 2 | Implementada |
