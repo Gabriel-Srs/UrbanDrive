@@ -5,9 +5,9 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | ID | Requisito | Item | Prioridade | Dependências | Sprint | Estimativa | Status |
 |---|---|---|---|---|---|---|---|
 | PBI-01 | RF01 | Entidade `Veiculo` com encapsulamento e validações | Alta | — | 1 | 8h | ✔️ Concluído |
-| PBI-02 | RF03 | `Motorista` e `CNH` (composição) | Alta | — | 2 | 6h | ⏳ Não iniciado |
-| PBI-03 | RF04 | `Frota` (agregação com `Veiculo`) | Alta | PBI-01 | 2 | 5h | ⏳ Não iniciado |
-| PBI-04 | RF07 | `ConfiguradorSistema` (membros estáticos) | Média | PBI-01 | 2 | 4h | ⏳ Não iniciado |
+| PBI-02 | RF03 | `Motorista` e `CNH` (composição) | Alta | — | 2 | 6h | 🔄 Em andamento |
+| PBI-03 | RF04 | `Frota` (agregação com `Veiculo`) | Alta | PBI-01 | 2 | 5h | ✔️ Concluído |
+| PBI-04 | RF07 | `ConfiguradorSistema` (membros estáticos) | Média | PBI-01 | 2 | 4h | ✔️ Concluído |
 | PBI-05 | RF05 | `Locacao` (associação Motorista–Veiculo) | Média | PBI-01, PBI-02 | 2 | 5h | ⏳ Não iniciado |
 | PBI-06 | RF02 | `Carro` e `Patinete` (herança, `sealed`) | Alta | PBI-01 | 3 | 6h | ⏳ Não iniciado |
 | PBI-07 | RF05 | `CalcularAluguel(int dias)` polimórfico | Alta | PBI-06 | 3 | 6h | ⏳ Não iniciado |
@@ -31,4 +31,8 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | 31/10/2026 | PBI-01 marcado como concluído | Encerramento da Sprint 1. |
 | 12/11/2026 | Estimativa do PBI-01 ajustada de 6h para 8h | Alinhar à soma das tarefas T1.1 a T1.7 do planejamento da Sprint 1. |
 | 12/11/2026 | PBI-01: correções de encapsulamento e validação e ampliação dos testes (PR #12) | Problemas encontrados na revisão do código (avisos CS8618, diária zero aceita, testes insuficientes). |
+| 12/11/2026 | Início da Sprint 2: PBI-02 a PBI-05 selecionados | Planejamento da Sprint 2. |
+| 14/11/2026 | PBI-04 concluído (`ConfiguradorSistema`, PR #14) | Entrega da T2.3. |
+| 14/11/2026 | PBI-03 concluído (`Frota`, PR #15) | Entrega da T2.2. |
+| 14/11/2026 | PBI-02 em andamento (`Motorista` e `CNH`) | T2.1 em desenvolvimento. |
 | --/--/2026 | _(registrar as próximas alterações)_ | |
