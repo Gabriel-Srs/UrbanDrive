@@ -4,7 +4,7 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 
 | ID | Requisito | Item | Prioridade | Dependências | Sprint | Estimativa | Status |
 |---|---|---|---|---|---|---|---|
-| PBI-01 | RF01 | Entidade `Veiculo` com encapsulamento e validações | Alta | — | 1 | 6h | ✔️ Concluído |
+| PBI-01 | RF01 | Entidade `Veiculo` com encapsulamento e validações | Alta | — | 1 | 8h | ✔️ Concluído |
 | PBI-02 | RF03 | `Motorista` e `CNH` (composição) | Alta | — | 2 | 6h | ⏳ Não iniciado |
 | PBI-03 | RF04 | `Frota` (agregação com `Veiculo`) | Alta | PBI-01 | 2 | 5h | ⏳ Não iniciado |
 | PBI-04 | RF07 | `ConfiguradorSistema` (membros estáticos) | Média | PBI-01 | 2 | 4h | ⏳ Não iniciado |
@@ -29,4 +29,6 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 |---|---|---|
 | 31/10/2026 | Criação do backlog inicial (PBI-01 a PBI-12) | Formalização do Product Backlog do projeto. |
 | 31/10/2026 | PBI-01 marcado como concluído | Encerramento da Sprint 1. |
+| 12/11/2026 | Estimativa do PBI-01 ajustada de 6h para 8h | Alinhar à soma das tarefas T1.1 a T1.7 do planejamento da Sprint 1. |
+| 12/11/2026 | PBI-01: correções de encapsulamento e validação e ampliação dos testes (PR #12) | Problemas encontrados na revisão do código (avisos CS8618, diária zero aceita, testes insuficientes). |
 | --/--/2026 | _(registrar as próximas alterações)_ | |
