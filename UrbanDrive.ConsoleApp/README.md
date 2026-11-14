@@ -7,13 +7,36 @@ Sistema de console em C# para gerenciamento de empresas de transporte multimodal
 
 ## Como executar
 
+**Requisito:** [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0). O projeto usa `net9.0`; tendo apenas o .NET 8 ou o .NET 10, ele compila, mas não executa.
+
+Para conferir as versões instaladas: `dotnet --list-sdks` e `dotnet --list-runtimes`.
+
 ```bash
-git clone <URL-DO-REPOSITORIO>
+git clone https://github.com/Gabriel-Srs/UrbanDrive.git
 cd UrbanDrive
-dotnet run --project src/UrbanDrive.App
+dotnet run --project UrbanDrive.ConsoleApp
 ```
 
-Requisito: [.NET SDK](https://dotnet.microsoft.com/download) instalado. <!-- CONFIRMAR a versão e o caminho do projeto -->
+Ou, de dentro da pasta do projeto:
+
+```bash
+cd UrbanDrive.ConsoleApp
+dotnet run
+```
+
+A execução mostra a demonstração da sprint atual e os cenários de teste, com o resultado `X aprovados, Y reprovados` no final.
+
+## Estrutura
+
+```text
+UrbanDrive/
+├── UrbanDrive.sln
+└── UrbanDrive.ConsoleApp/
+    ├── Models/          # Entidades (Veiculo, Carro, ...)
+    ├── Program.cs       # Demonstração e cenários de teste
+    ├── docs/            # Backlog e planejamento das sprints
+    └── imagens/         # Evidências (prints de execução)
+```
 
 ## Documentação
 
