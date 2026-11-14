@@ -5,10 +5,10 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | ID | Requisito | Item | Prioridade | Dependências | Sprint | Estimativa | Status |
 |---|---|---|---|---|---|---|---|
 | PBI-01 | RF01 | Entidade `Veiculo` com encapsulamento e validações | Alta | — | 1 | 8h | ✔️ Concluído |
-| PBI-02 | RF03 | `Motorista` e `CNH` (composição) | Alta | — | 2 | 6h | 🔄 Em andamento |
+| PBI-02 | RF03 | `Motorista` e `CNH` (composição) | Alta | — | 2 | 6h | ✔️ Concluído |
 | PBI-03 | RF04 | `Frota` (agregação com `Veiculo`) | Alta | PBI-01 | 2 | 5h | ✔️ Concluído |
 | PBI-04 | RF07 | `ConfiguradorSistema` (membros estáticos) | Média | PBI-01 | 2 | 4h | ✔️ Concluído |
-| PBI-05 | RF05 | `Locacao` (associação Motorista–Veiculo) | Média | PBI-01, PBI-02 | 2 | 5h | ⏳ Não iniciado |
+| PBI-05 | RF05 | `Locacao` (associação Motorista–Veiculo) | Média | PBI-01, PBI-02 | 2 | 5h | ✔️ Concluído |
 | PBI-06 | RF02 | `Carro` e `Patinete` (herança, `sealed`) | Alta | PBI-01 | 3 | 6h | ⏳ Não iniciado |
 | PBI-07 | RF05 | `CalcularAluguel(int dias)` polimórfico | Alta | PBI-06 | 3 | 6h | ⏳ Não iniciado |
 | PBI-08 | RF06 | Manutenção (sobrecarga de `RealizarManutencao`) | Média | PBI-06 | 3 | 4h | ⏳ Não iniciado |
@@ -35,4 +35,7 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | 14/11/2026 | PBI-04 concluído (`ConfiguradorSistema`, PR #14) | Entrega da T2.3. |
 | 14/11/2026 | PBI-03 concluído (`Frota`, PR #15) | Entrega da T2.2. |
 | 14/11/2026 | PBI-02 em andamento (`Motorista` e `CNH`) | T2.1 em desenvolvimento. |
+| 14/11/2026 | PBI-02 concluído (`Motorista` e `CNH`; correção do número da CNH no PR #18) | Entrega da T2.1. |
+| 14/11/2026 | PBI-05 concluído (`Locacao`, PR #19) | Entrega da T2.4. Testes de integração adicionados na T2.6. |
+| 14/11/2026 | Encerramento da Sprint 2 | Todos os itens selecionados (PBI-02 a PBI-05) concluídos. O cálculo polimórfico de locação (PBI-07, também RF05) permanece na Sprint 3. |
 | --/--/2026 | _(registrar as próximas alterações)_ | |
