@@ -82,6 +82,29 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
+        // Métodos
+        public virtual decimal CalcularAluguel(int dias)
+        {
+            if (dias <= 0)
+                throw new ArgumentOutOfRangeException(nameof(dias), dias,
+                    "A quantidade de dias deve ser maior que zero.");
+
+            return ValorBaseDiaria * dias;
+        }
+
+        public string RealizarManutencao()
+        {
+            return $"Manutenção geral realizada no veículo {Placa}.";
+        }
+
+        public string RealizarManutencao(string pecaSubstituida)
+        {
+            if (string.IsNullOrWhiteSpace(pecaSubstituida))
+                throw new ArgumentException("A peça substituída não pode ser nula ou vazia.", nameof(pecaSubstituida));
+
+            return $"Manutenção realizada no veículo {Placa}: {pecaSubstituida.Trim()} substituída.";
+        }
+
         // Exibição
         public override string ToString()
         {
