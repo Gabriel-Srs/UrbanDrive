@@ -2,7 +2,8 @@ using System.Text.RegularExpressions;
 
 namespace UrbanDrive.ConsoleApp.Models
 {
-    public class Veiculo
+    // Classe abstrata: não pode ser instanciada, só especializada (Sprint 4)
+    public abstract class Veiculo
     {
         // Formato da placa (antigo ou Mercosul)
         private static readonly Regex FormatoPlaca = new Regex(@"^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$");
@@ -14,7 +15,7 @@ namespace UrbanDrive.ConsoleApp.Models
         private decimal valorBaseDiaria;
 
         // Construtor
-        public Veiculo(string identificador, string placa, string modelo, decimal valorBaseDiaria)
+        protected Veiculo(string identificador, string placa, string modelo, decimal valorBaseDiaria)
         {
             Identificador = identificador;
             Placa = placa;
