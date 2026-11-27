@@ -18,6 +18,9 @@ namespace UrbanDrive.ConsoleApp
             TestarSprint2Frota();
             TestarSprint2MotoristaCnh();
             TestarSprint2Locacao();
+            TestarSprint3Aluguel();
+            TestarSprint3Manutencao();
+            TestarSprint3Patinete();
 
             Console.WriteLine();
             Console.WriteLine($"Resultado: {aprovados} aprovados, {reprovados} reprovados.");
@@ -273,6 +276,111 @@ namespace UrbanDrive.ConsoleApp
             DeveFalhar("Locação com 0 dias", () => new Locacao(maria, kwid, 0, dataRetirada));
             DeveFalhar("Locação com dias negativos", () => new Locacao(maria, kwid, -3, dataRetirada));
 
+            Console.WriteLine();
+        }
+
+        // Sprint 3 - CalcularAluguel (sobrescrita e polimorfismo)
+        private static void TestarSprint3Aluguel()
+        {
+            Console.WriteLine("##### Sprint 3: CalcularAluguel (polimorfismo) #####");
+            Console.WriteLine();
+
+            var veiculo = new Veiculo("A001", "AAA1A11", "Veículo Base", 100m);
+            var carro = new Carro("A002", "BBB2B22", "Fiat Cronos", 100m, 4, "Flex");
+            var patinete = new Patinete("A003", "CCC3C33", "Xiaomi Scooter 4", 40m, 35);
+
+            Console.WriteLine("--- Regra de cada tipo ---");
+            Verificar("Veiculo: R$ 100,00 x 3 dias = R$ 300,00", veiculo.CalcularAluguel(3) == 300.00m);
+            Verificar("Carro: R$ 100,00 x 3 dias x 1,05 (seguro) = R$ 315,00", carro.CalcularAluguel(3) == 315.00m);
+            Verificar("Patinete: R$ 40,00 x 2 dias = R$ 80,00 (sem desconto)", patinete.CalcularAluguel(2) == 80.00m);
+            Verificar("Patinete: R$ 40,00 x 3 dias x 0,90 = R$ 108,00 (desconto a partir de 3 dias)",
+                patinete.CalcularAluguel(3) == 108.00m);
+            Verificar("Patinete: R$ 40,00 x 4 dias x 0,90 = R$ 144,00", patinete.CalcularAluguel(4) == 144.00m);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Polimorfismo: a mesma chamada em uma lista de Veiculo ---");
+            var veiculos = new List<Veiculo> { veiculo, carro, patinete };
+            var esperados = new List<decimal> { 300.00m, 315.00m, 108.00m };
+            for (int i = 0; i < veiculos.Count; i++)
+            {
+                // Não verifica o tipo: cada objeto executa a própria versão de CalcularAluguel
+                decimal valor = veiculos[i].CalcularAluguel(3);
+                Console.WriteLine($"  {veiculos[i].GetType().Name,-8} | 3 dias | R$ {valor:F2}");
+                Verificar($"{veiculos[i].GetType().Name} na lista calcula R$ {esperados[i]:F2}", valor == esperados[i]);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("--- Validação herdada de dias ---");
+            DeveFalhar("Carro com 0 dias", () => carro.CalcularAluguel(0));
+            DeveFalhar("Carro com dias negativos", () => carro.CalcularAluguel(-1));
+            DeveFalhar("Patinete com 0 dias", () => patinete.CalcularAluguel(0));
+            DeveFalhar("Patinete com dias negativos", () => patinete.CalcularAluguel(-1));
+            Console.WriteLine();
+
+            Console.WriteLine("--- Locação usa o cálculo de cada tipo ---");
+            var ana = new Motorista("Ana Costa", "55566677788", "A", new DateTime(2029, 3, 10));
+            var locacaoPatinete = new Locacao(ana, patinete, 4, new DateTime(2026, 11, 20));
+            Console.WriteLine(locacaoPatinete);
+            Verificar("Locação de Patinete: R$ 144,00 x 1,10 (taxa) = R$ 158,40",
+                locacaoPatinete.CalcularValorTotal() == 158.40m);
+            var locacaoCarro = new Locacao(ana, carro, 3, new DateTime(2026, 11, 20));
+            Console.WriteLine(locacaoCarro);
+            Verificar("Locação de Carro: R$ 315,00 x 1,10 (taxa) = R$ 346,50",
+                locacaoCarro.CalcularValorTotal() == 346.50m);
+            Console.WriteLine();
+        }
+
+        // Sprint 3 - RealizarManutencao (sobrecarga)
+        private static void TestarSprint3Manutencao()
+        {
+            Console.WriteLine("##### Sprint 3: RealizarManutencao (sobrecarga) #####");
+            Console.WriteLine();
+
+            var carro = new Carro("M001", "DDD4D44", "VW Polo", 130m, 4, "Flex");
+            var patinete = new Patinete("M002", "EEE5E55", "Segway Ninebot", 45m, 40);
+
+            string geral = carro.RealizarManutencao();
+            string comPeca = patinete.RealizarManutencao("bateria");
+            Console.WriteLine($"  RealizarManutencao():          {geral}");
+            Console.WriteLine($"  RealizarManutencao(\"bateria\"): {comPeca}");
+
+            Verificar("Versão sem parâmetro descreve a manutenção com a placa", geral.Contains("DDD4D44"));
+            Verificar("Versão com peça inclui a peça substituída", comPeca.Contains("bateria") && comPeca.Contains("EEE5E55"));
+            DeveFalhar("Peça vazia", () => carro.RealizarManutencao(""));
+            DeveFalhar("Peça só com espaços", () => carro.RealizarManutencao("   "));
+            DeveFalhar("Peça nula", () => carro.RealizarManutencao(null!));
+            Console.WriteLine();
+        }
+
+        // Sprint 3 - Patinete (herança, sealed e contador)
+        private static void TestarSprint3Patinete()
+        {
+            Console.WriteLine("##### Sprint 3: Patinete (herança e sealed) #####");
+            Console.WriteLine();
+
+            var patinete = new Patinete("P001", "fff-6789", "Xiaomi Scooter 4", 40m, 35);
+            Console.WriteLine(patinete);
+
+            Verificar("Patinete é sealed (nenhuma classe pode herdar dela)", typeof(Patinete).IsSealed);
+            Verificar("Patinete é um Veiculo (herança)", patinete is Veiculo);
+            Verificar("Construtor com base(...) inicializa a placa normalizada", patinete.Placa == "FFF6789");
+            Verificar("Autonomia da bateria é 35 km", patinete.AutonomiaBateriaKm == 35);
+            DeveFalhar("Autonomia zero", () => new Patinete("P002", "GGG7G77", "Patinete Teste", 40m, 0));
+            DeveFalhar("Autonomia negativa", () => new Patinete("P003", "GGG7G77", "Patinete Teste", 40m, -10));
+            DeveFalhar("Alterar autonomia para zero", () => { patinete.AutonomiaBateriaKm = 0; });
+            DeveFalhar("Patinete com placa inválida (validação herdada)",
+                () => new Patinete("P004", "12-ABC", "Patinete Teste", 40m, 30));
+            Console.WriteLine();
+
+            Console.WriteLine("--- Contador não conta veículo rejeitado pela subclasse (T3.5) ---");
+            int total = ConfiguradorSistema.TotalVeiculosCadastrados;
+            DeveFalhar("Carro com 0 portas", () => new Carro("P005", "HHH8H88", "Carro Teste", 50m, 0, "Flex"));
+            DeveFalhar("Patinete com autonomia 0", () => new Patinete("P006", "III9I99", "Patinete Teste", 40m, 0));
+            Verificar("Carro e Patinete rejeitados não aumentam o contador",
+                ConfiguradorSistema.TotalVeiculosCadastrados == total);
+            new Patinete("P007", "JJJ1J11", "Patinete Válido", 40m, 25);
+            Verificar("Patinete válido aumenta o contador em 1",
+                ConfiguradorSistema.TotalVeiculosCadastrados == total + 1);
             Console.WriteLine();
         }
 
