@@ -42,6 +42,16 @@ namespace UrbanDrive.ConsoleApp.Models
             }
         }
 
+        // Acréscimo de seguro do carro: 5%
+        public const decimal AcrescimoSeguro = 0.05m;
+
+        // Métodos
+        // Reaproveita a regra e a validação de Veiculo e aplica o acréscimo de seguro
+        public override decimal CalcularAluguel(int dias)
+        {
+            return base.CalcularAluguel(dias) * (1 + AcrescimoSeguro);
+        }
+
         // Exibição
         public override string ToString()
         {

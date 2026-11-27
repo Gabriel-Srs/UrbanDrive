@@ -252,8 +252,9 @@ namespace UrbanDrive.ConsoleApp
             Console.WriteLine("--- Locação de um Carro (herança) ---");
             var locacaoCarro = new Locacao(maria, hb20, 2, dataRetirada);
             Console.WriteLine(locacaoCarro);
-            Verificar("Total do Carro: 2 dias x R$ 150,00 x 1,10 = R$ 330,00",
-                locacaoCarro.CalcularValorTotal() == 330.00m);
+            // Sprint 3: o Carro tem acréscimo de 5% de seguro (antes: R$ 330,00)
+            Verificar("Total do Carro: 2 dias x R$ 150,00 x 1,05 x 1,10 = R$ 346,50",
+                locacaoCarro.CalcularValorTotal() == 346.50m);
             Verificar("O mesmo motorista pode ter mais de uma locação", locacaoCarro.Motorista == locacao.Motorista);
             Console.WriteLine();
 
