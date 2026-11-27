@@ -55,10 +55,24 @@ namespace UrbanDrive.ConsoleApp.Models
             return base.CalcularAluguel(dias) * (1 + AcrescimoSeguro);
         }
 
+        // Tipo (membro abstrato de Veiculo)
+        public override string Tipo
+        {
+            get { return "Carro"; }
+        }
+
+        // Dados próprios no relatório (IImprimivel)
+        protected override IEnumerable<string> DetalhesRelatorio()
+        {
+            yield return $"Portas: {QuantidadePortas}";
+            yield return $"Combustível: {TipoCombustivel}";
+            yield return $"Aluguel de 1 dia (com seguro de {AcrescimoSeguro:P0}): R$ {CalcularAluguel(1):F2}";
+        }
+
         // Exibição
         public override string ToString()
         {
-            return $"[Carro] {base.ToString()} | Portas: {QuantidadePortas} | Combustível: {TipoCombustivel}";
+            return $"[{Tipo}] {base.ToString()} | Portas: {QuantidadePortas} | Combustível: {TipoCombustivel}";
         }
     }
 }
