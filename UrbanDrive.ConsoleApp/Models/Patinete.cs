@@ -47,23 +47,10 @@ namespace UrbanDrive.ConsoleApp.Models
             return valor;
         }
 
-        // Tipo (membro abstrato de Veiculo)
-        public override string Tipo
-        {
-            get { return "Patinete"; }
-        }
-
-        // Dados próprios no relatório (IImprimivel)
-        protected override IEnumerable<string> DetalhesRelatorio()
-        {
-            yield return $"Autonomia da bateria: {AutonomiaBateriaKm} km";
-            yield return $"Desconto: {DescontoLongoPeriodo:P0} a partir de {DiasMinimosDesconto} dias";
-        }
-
         // Exibição
         public override string ToString()
         {
-            return $"[{Tipo}] {base.ToString()} | Autonomia: {AutonomiaBateriaKm} km";
+            return $"[Patinete] {base.ToString()} | Autonomia: {AutonomiaBateriaKm} km";
         }
     }
 }

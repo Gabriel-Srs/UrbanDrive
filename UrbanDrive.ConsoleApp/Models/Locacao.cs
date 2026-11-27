@@ -1,9 +1,8 @@
 using System;
-using UrbanDrive.ConsoleApp.Interfaces;
 
 namespace UrbanDrive.ConsoleApp.Models
 {
-    public class Locacao : IImprimivel
+    public class Locacao
     {
         // Atributos
         private Motorista motorista = null!;
@@ -72,18 +71,6 @@ namespace UrbanDrive.ConsoleApp.Models
         public decimal CalcularValorTotal()
         {
             return Veiculo.CalcularAluguel(Dias) * (1 + ConfiguradorSistema.TaxaServico);
-        }
-
-        // Relatório (IImprimivel)
-        public string GerarRelatorio()
-        {
-            return $"=== Relatório da locação ===\n" +
-                   $"Motorista: {Motorista.Nome} (CNH {Motorista.CNH.Categoria}, válida até {Motorista.CNH.DataValidade:dd/MM/yyyy})\n" +
-                   $"Veículo: {Veiculo.Tipo} {Veiculo.Modelo} | Placa: {Veiculo.Placa}\n" +
-                   $"Retirada: {DataRetirada:dd/MM/yyyy} | Dias: {Dias}\n" +
-                   $"Aluguel do veículo: R$ {Veiculo.CalcularAluguel(Dias):F2}\n" +
-                   $"Taxa de serviço: {ConfiguradorSistema.TaxaServico:P0}\n" +
-                   $"Total: R$ {CalcularValorTotal():F2}";
         }
 
         // Exibição

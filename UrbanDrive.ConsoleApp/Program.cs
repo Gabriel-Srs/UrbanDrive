@@ -11,11 +11,6 @@ namespace UrbanDrive.ConsoleApp
                 : base(identificador, placa, modelo, valorBaseDiaria)
             {
             }
-
-            public override string Tipo
-            {
-                get { return "Veículo de teste"; }
-            }
         }
 
         // Placar dos testes
