@@ -155,18 +155,20 @@ classDiagram
 
 ## G. Resultado da sprint
 
-_A ser preenchido ao final da sprint, de acordo com o resultado real._
+### Registro parcial em 26/11/2026
+
+O período previsto (19/11 a 22/11) terminou sem que todas as tarefas fossem concluídas. O planejamento acima não foi alterado; a diferença entre o previsto e o realizado fica registrada nesta seção.
 
 | Item ou tarefa | Situação | Evidência | Observações |
 |---|---|---|---|
-| T3.1 | | | |
-| T3.2 | | | |
-| T3.3 | | | |
-| T3.4 | | | |
-| T3.5 | | | |
-| T3.6 | | | |
-| T3.7 | | | |
-| T3.8 | | | |
+| T3.1 | Concluído | Commit `8e90233` (22/11), branch `feature/veiculo-polimorfismo` | `CalcularAluguel` virtual e sobrecarga de `RealizarManutencao` em `Veiculo`. Compila sem avisos; `dotnet run`: 57 aprovados, 0 reprovados. Previsto para entrar na `main` em 20/11; o PR foi aberto em 26/11. |
+| T3.2 | Concluído | Commit `c1a426f` (26/11), branch `feature/carro-aluguel` | `Carro` sobrescreve `CalcularAluguel` com `base.CalcularAluguel(dias) × 1,05`. |
+| T3.3 | Não concluído | — | `Patinete` (`sealed`) ainda não implementado. Responsável: Samuel Elias. |
+| T3.4 | Concluído | Commit `c1a426f` (26/11), branch `feature/carro-aluguel` | `Locacao.CalcularValorTotal()` passa a usar `Veiculo.CalcularAluguel(Dias)`. O teste da `Locacao` com `Carro` mudou de R$ 330,00 para R$ 346,50, como previsto no critério de aceitação do PBI-07. |
+| T3.5 | Não concluído | — | Correção do contador estático. Depende da T3.3. Responsável: Samuel Elias. |
+| T3.6 | Parcialmente concluído | `Program.cs` (branch `feature/carro-aluguel`) | Só foi atualizado o teste da `Locacao` com `Carro` (necessário para a T3.4). Os testes dos cálculos polimórficos, da sobrecarga, do `sealed` e do `Patinete` ainda faltam. Responsável: Samuel Elias. |
+| T3.7 | Parcialmente concluído | `backlog.md` e `diagrama-classes.md` (branch `docs/sprint-3`) | Backlog e diagrama atualizados com o que já foi implementado. Falta incluir o `Patinete` depois da T3.3. |
+| T3.8 | Parcialmente concluído | Esta seção | Registro parcial. Falta o resultado final e a retrospectiva, feitos em conjunto ao fim da sprint. |
 
 ## H. Retrospectiva
 
