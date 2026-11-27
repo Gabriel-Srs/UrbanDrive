@@ -21,8 +21,8 @@ namespace UrbanDrive.ConsoleApp.Models
             Modelo = modelo;
             ValorBaseDiaria = valorBaseDiaria;
 
-            // Contador de veículos
-            ConfiguradorSistema.RegistrarVeiculo();
+            // O contador é atualizado no fim do construtor de cada subclasse,
+            // depois das validações próprias (Carro, Patinete)
         }
 
         // Propriedades

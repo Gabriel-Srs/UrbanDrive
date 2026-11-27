@@ -16,6 +16,9 @@ namespace UrbanDrive.ConsoleApp.Models
             : base(identificador, placa, modelo, valorBaseDiaria)
         {
             AutonomiaBateriaKm = autonomiaBateriaKm;
+
+            // Contador de veículos: só depois de todas as validações
+            ConfiguradorSistema.RegistrarVeiculo();
         }
 
         // Propriedades
