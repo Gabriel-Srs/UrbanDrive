@@ -12,10 +12,10 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | PBI-06 | RF02 | `Carro` e `Patinete` (herança, `sealed`) | Alta | PBI-01 | 3 | 6h | ✔️ Concluído |
 | PBI-07 | RF05 | `CalcularAluguel(int dias)` polimórfico | Alta | PBI-06 | 3 | 6h | ✔️ Concluído |
 | PBI-08 | RF06 | Manutenção (sobrecarga de `RealizarManutencao`) | Média | PBI-06 | 3 | 4h | ✔️ Concluído |
-| PBI-09 | RF08 | `IImprimivel` e relatórios | Média | PBI-06 | 4 | 5h | ✔️ Concluído |
-| PBI-10 | RF09 | `IEletrico` e `CarroEletrico` | Média | PBI-06 | 4 | 5h | ✔️ Concluído |
-| PBI-11 | RF10 | Menu de console (cadastro e consulta) | Alta | PBI-01 a PBI-10 | 4 | 8h | ✔️ Concluído |
-| PBI-12 | — | `Veiculo` abstrato, integração e testes finais | Alta | PBI-06 a PBI-10 | 4 | 6h | ✔️ Concluído |
+| PBI-09 | RF08 | `IImprimivel` e relatórios | Média | PBI-06 | 4 | 5h | ⏳ Não iniciado |
+| PBI-10 | RF09 | `IEletrico` e `CarroEletrico` | Média | PBI-06 | 4 | 5h | ⏳ Não iniciado |
+| PBI-11 | RF10 | Menu de console (cadastro e consulta) | Alta | PBI-01 a PBI-10 | 4 | 8h | ⏳ Não iniciado |
+| PBI-12 | — | `Veiculo` abstrato, integração e testes finais | Alta | PBI-06 a PBI-10 | 4 | 6h | ⏳ Não iniciado |
 
 ## Critérios de priorização
 
@@ -46,11 +46,5 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | 27/11/2026 | PBI-06 concluído: `Patinete` `sealed` (PR #33) e contador corrigido (PR #34) | Entrega da T3.3 e da T3.5. |
 | 27/11/2026 | PBI-07 e PBI-08 concluídos: testes da Sprint 3 (PR #35, 88 aprovados, 0 reprovados) | Entrega da T3.6. |
 | 27/11/2026 | Encerramento da Sprint 3 | Todos os itens selecionados (PBI-06 a PBI-08) concluídos, 5 dias após o período previsto. |
-| 27/11/2026 | Início da Sprint 4: PBI-09 a PBI-12 selecionados | Planejamento da Sprint 4. Tarefas T4.4 (reorganização dos testes) e T4.9 (relatório final) adicionadas no planejamento detalhado. |
-| 27/11/2026 | PBI-12 em andamento: `Veiculo` abstrata (PR #47) | Entrega da T4.1. |
-| 27/11/2026 | PBI-09 concluído: `IImprimivel` em veículos, `Frota` e `Locacao` (PR #48) | Entrega da T4.2. |
-| 27/11/2026 | PBI-10 concluído: `IEletrico`, `Bateria` e `CarroEletrico` (PR #49) | Entrega da T4.3. |
-| 27/11/2026 | PBI-11 concluído: testes fora do `Program.cs` (PR #50) e menu de console (PR #51) | Entrega da T4.4 e da T4.5. |
-| 27/11/2026 | PBI-12 concluído: testes finais (PR #52, 132 aprovados, 0 reprovados), diagrama final e documentação | Entrega da T4.6 a T4.9. |
-| 27/11/2026 | Encerramento da Sprint 4 e do backlog | Todos os itens PBI-01 a PBI-12 concluídos. |
+| 27/11/2026 | Implementação antecipada da Sprint 4 (PRs #46 a #53) revertida | A Sprint 4 foi iniciada antes do planejamento conjunto do grupo. PBI-09 a PBI-12 voltam a "Não iniciado" e serão planejados pelos dois integrantes. |
 | --/--/2026 | _(registrar as próximas alterações)_ | |

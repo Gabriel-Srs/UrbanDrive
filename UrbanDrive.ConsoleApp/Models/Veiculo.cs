@@ -1,15 +1,9 @@
-using System.Text;
 using System.Text.RegularExpressions;
-using UrbanDrive.ConsoleApp.Interfaces;
 
 namespace UrbanDrive.ConsoleApp.Models
 {
-    // Classe abstrata: não pode ser instanciada, só especializada (Sprint 4)
-    public abstract class Veiculo : IImprimivel
+    public class Veiculo
     {
-        // Membro abstrato: cada subclasse informa o próprio tipo
-        public abstract string Tipo { get; }
-
         // Formato da placa (antigo ou Mercosul)
         private static readonly Regex FormatoPlaca = new Regex(@"^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$");
 
@@ -20,7 +14,7 @@ namespace UrbanDrive.ConsoleApp.Models
         private decimal valorBaseDiaria;
 
         // Construtor
-        protected Veiculo(string identificador, string placa, string modelo, decimal valorBaseDiaria)
+        public Veiculo(string identificador, string placa, string modelo, decimal valorBaseDiaria)
         {
             Identificador = identificador;
             Placa = placa;
@@ -109,28 +103,6 @@ namespace UrbanDrive.ConsoleApp.Models
                 throw new ArgumentException("A peça substituída não pode ser nula ou vazia.", nameof(pecaSubstituida));
 
             return $"Manutenção realizada no veículo {Placa}: {pecaSubstituida.Trim()} substituída.";
-        }
-
-        // Relatório (IImprimivel): linhas comuns aqui, dados próprios em DetalhesRelatorio
-        public string GerarRelatorio()
-        {
-            var relatorio = new StringBuilder();
-            relatorio.AppendLine($"=== Relatório do veículo {Placa} ===");
-            relatorio.AppendLine($"Tipo: {Tipo}");
-            relatorio.AppendLine($"Identificador: {Identificador}");
-            relatorio.AppendLine($"Modelo: {Modelo}");
-            relatorio.AppendLine($"Diária: R$ {ValorBaseDiaria:F2}");
-
-            foreach (string linha in DetalhesRelatorio())
-                relatorio.AppendLine(linha);
-
-            return relatorio.ToString().TrimEnd();
-        }
-
-        // Cada subclasse sobrescreve com os próprios dados
-        protected virtual IEnumerable<string> DetalhesRelatorio()
-        {
-            return Enumerable.Empty<string>();
         }
 
         // Exibição
