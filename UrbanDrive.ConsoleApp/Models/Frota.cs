@@ -1,7 +1,10 @@
+using System.Text;
+using UrbanDrive.ConsoleApp.Interfaces;
+
 namespace UrbanDrive.ConsoleApp.Models
 {
     // Agregação: a frota agrupa veículos que existem independentemente dela (RF04)
-    public class Frota
+    public class Frota : IImprimivel
     {
         // Atributos
         private string nome = string.Empty;
@@ -75,6 +78,22 @@ namespace UrbanDrive.ConsoleApp.Models
             }
 
             return null;
+        }
+
+        // Relatório (IImprimivel)
+        public string GerarRelatorio()
+        {
+            var relatorio = new StringBuilder();
+            relatorio.AppendLine($"=== Relatório da frota {Nome} ===");
+            relatorio.AppendLine($"Veículos: {Quantidade}");
+
+            if (Quantidade == 0)
+                relatorio.AppendLine("  (nenhum veículo cadastrado)");
+
+            foreach (Veiculo veiculo in veiculos)
+                relatorio.AppendLine($"  {veiculo}");
+
+            return relatorio.ToString().TrimEnd();
         }
 
         // Exibição
