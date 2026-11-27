@@ -39,7 +39,7 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | 14/11/2026 | PBI-05 concluído (`Locacao`, PR #19) | Entrega da T2.4. Testes de integração adicionados na T2.6. |
 | 14/11/2026 | Encerramento da Sprint 2 | Todos os itens selecionados (PBI-02 a PBI-05) concluídos. O cálculo polimórfico de locação (PBI-07, também RF05) permanece na Sprint 3. |
 | 19/11/2026 | Início da Sprint 3: PBI-06 a PBI-08 selecionados | Planejamento da Sprint 3 (integrado na `main` em 22/11, PR #28). |
-| 22/11/2026 | PBI-07 e PBI-08 em andamento: `CalcularAluguel` virtual e sobrecarga de `RealizarManutencao` em `Veiculo` | Entrega da T3.1 (branch `feature/veiculo-polimorfismo`). |
+| 22/11/2026 | PBI-07 e PBI-08 em andamento: `CalcularAluguel` virtual e sobrecarga de `RealizarManutencao` em `Veiculo` | Entrega da T3.1 (PR #29). |
 | 26/11/2026 | PBI-06 e PBI-07 em andamento: `Carro` sobrescreve `CalcularAluguel` e `Locacao` usa o cálculo polimórfico | Entrega da T3.2 e da T3.4 (branch `feature/carro-aluguel`). |
 | 26/11/2026 | Sprint 3 passou do período previsto (até 22/11) | `Patinete` (T3.3), correção do contador (T3.5) e testes da sprint (T3.6) ainda pendentes. PBI-06 a PBI-08 continuam em andamento até essas tarefas serem concluídas. |
 | --/--/2026 | _(registrar as próximas alterações)_ | |
