@@ -67,9 +67,10 @@ namespace UrbanDrive.ConsoleApp.Models
                 throw new ArgumentException("A CNH do motorista está vencida na data de retirada.", nameof(DataRetirada));
         }
 
+        // Polimorfismo: cada tipo de veículo calcula o próprio aluguel
         public decimal CalcularValorTotal()
         {
-            return Veiculo.ValorBaseDiaria * Dias * (1 + ConfiguradorSistema.TaxaServico);
+            return Veiculo.CalcularAluguel(Dias) * (1 + ConfiguradorSistema.TaxaServico);
         }
 
         // Exibição
