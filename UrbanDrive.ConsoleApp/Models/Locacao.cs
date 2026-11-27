@@ -71,7 +71,7 @@ namespace UrbanDrive.ConsoleApp.Models
         // Polimorfismo: cada tipo de veículo calcula o próprio aluguel
         public decimal CalcularValorTotal()
         {
-            return Veiculo.CalcularAluguel(Dias) * (1 + ConfiguradorSistema.TaxaServico);
+            return ConfiguradorSistema.AplicarTaxaServico(Veiculo.CalcularAluguel(Dias));
         }
 
         // Relatório (IImprimivel)
