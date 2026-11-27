@@ -170,12 +170,89 @@ O período previsto (19/11 a 22/11) terminou sem que todas as tarefas fossem con
 | T3.7 | Parcialmente concluído | `backlog.md` e `diagrama-classes.md` (branch `docs/sprint-3`) | Backlog e diagrama atualizados com o que já foi implementado. Falta incluir o `Patinete` depois da T3.3. |
 | T3.8 | Parcialmente concluído | Esta seção | Registro parcial. Falta o resultado final e a retrospectiva, feitos em conjunto ao fim da sprint. |
 
+### Resultado final em 27/11/2026
+
+| Item ou tarefa | Situação | Evidência | Observações |
+|---|---|---|---|
+| T3.1 — `Veiculo`: `CalcularAluguel` virtual e sobrecarga de `RealizarManutencao` | Concluído | PR #29 (issue #21), `Models/Veiculo.cs` | Integrada na `main` em 27/11 (prevista para 20/11). |
+| T3.2 — `Carro` sobrescreve `CalcularAluguel` | Concluído | PR #32 (issue #22), `Models/Carro.cs` | `base.CalcularAluguel(dias) × 1,05`. O PR #30 original foi fechado automaticamente pelo GitHub quando a branch-base foi apagada no merge do #29; o #32 tem o mesmo conteúdo. |
+| T3.3 — `Patinete` (`sealed`) | Concluído | PR #33 (issue #23), `Models/Patinete.cs` | Tarefa redistribuída entre os integrantes e executada por Gabriel Soares. Autonomia em km (> 0) e 10% de desconto a partir de 3 dias. |
+| T3.4 — `Locacao` usa `CalcularAluguel` | Concluído | PR #32 (issue #22), `Models/Locacao.cs` | Teste da `Locacao` com `Carro` atualizado de R$ 330,00 para R$ 346,50. |
+| T3.5 — Contador estático | Concluído | PR #34 (issue #24) | Tarefa redistribuída e executada por Gabriel Soares. `RegistrarVeiculo()` passou para o fim dos construtores de `Carro` e `Patinete`. O teste do contador da Sprint 2 passou a criar `Carro` e `Patinete`, porque `Veiculo` criado diretamente deixou de ser contado. |
+| T3.6 — Testes da Sprint 3 | Concluído | PR #35 (issue #25), `TestarSprint3Aluguel`, `TestarSprint3Manutencao`, `TestarSprint3Patinete`, [evidência](../evidencias/sprint-3-testes.txt) | Tarefa redistribuída e executada por Gabriel Soares. 31 cenários novos. Total do projeto: **88 aprovados, 0 reprovados**, build com 0 avisos. |
+| T3.7 — Diagrama e backlog | Concluído | [diagrama-classes.md](../diagramas/diagrama-classes.md), [backlog.md](../backlog.md) | `Patinete`, `Veiculo <\|-- Patinete` e a nova dependência do contador. PBI-06 a PBI-08 concluídos. |
+| T3.8 — Documentação, resultado e retrospectiva | Concluído | Este documento | |
+
+### Evidências
+
+**Demonstração dos diferentes cálculos de locação (polimorfismo):**
+
+```text
+--- Polimorfismo: a mesma chamada em uma lista de Veiculo ---
+  Veiculo  | 3 dias | R$ 300,00
+[OK] Veiculo na lista calcula R$ 300,00: ok
+  Carro    | 3 dias | R$ 315,00
+[OK] Carro na lista calcula R$ 315,00: ok
+  Patinete | 3 dias | R$ 108,00
+[OK] Patinete na lista calcula R$ 108,00: ok
+
+--- Locação usa o cálculo de cada tipo ---
+Locação | Motorista: Ana Costa | Placa: CCC3C33 | Dias: 4 | Total: R$ 158,40
+[OK] Locação de Patinete: R$ 144,00 x 1,10 (taxa) = R$ 158,40: ok
+Locação | Motorista: Ana Costa | Placa: BBB2B22 | Dias: 3 | Total: R$ 346,50
+[OK] Locação de Carro: R$ 315,00 x 1,10 (taxa) = R$ 346,50: ok
+```
+
+**Demonstração da sobrecarga de manutenção:**
+
+```text
+  RealizarManutencao():          Manutenção geral realizada no veículo DDD4D44.
+  RealizarManutencao("bateria"): Manutenção realizada no veículo EEE5E55: bateria substituída.
+[OK] Versão sem parâmetro descreve a manutenção com a placa: ok
+[OK] Versão com peça inclui a peça substituída: ok
+[OK] Peça vazia: A peça substituída não pode ser nula ou vazia.
+```
+
+A saída completa do `dotnet run` está em [`docs/evidencias/sprint-3-testes.txt`](../evidencias/sprint-3-testes.txt).
+
+**Relação entre critérios de aceitação e cenários testados:**
+
+| Critério | Cenário(s) que comprovam |
+|---|---|
+| PBI-06: herança com `base(...)` | Patinete é um Veiculo; construtor com `base(...)` inicializa a placa normalizada; placa inválida no Patinete (validação herdada) |
+| PBI-06: `Patinete` é `sealed` | Patinete é sealed (`typeof(Patinete).IsSealed`) |
+| PBI-06: autonomia ≤ 0 rejeitada | Autonomia zero; autonomia negativa; alterar autonomia para zero |
+| PBI-06: veículo rejeitado não conta | Carro e Patinete rejeitados não aumentam o contador; Patinete válido aumenta em 1 |
+| PBI-07: Veiculo R$ 300,00 e Carro R$ 315,00 | Regra de cada tipo |
+| PBI-07: Patinete R$ 80,00 e R$ 144,00 | Patinete 2 dias; Patinete 4 dias (e 3 dias = R$ 108,00) |
+| PBI-07: lista de `Veiculo` sem verificar o tipo | Polimorfismo: a mesma chamada em uma lista de Veiculo |
+| PBI-07: `dias <= 0` rejeitado | Carro e Patinete com 0 dias e com dias negativos |
+| PBI-07: `Locacao` usa `CalcularAluguel` | Locação de Carro = R$ 346,50; locação de Patinete = R$ 158,40 |
+| PBI-08: as duas sobrecargas | Versão sem parâmetro; versão com peça |
+| PBI-08: peça inválida rejeitada | Peça vazia, só com espaços e nula |
+
 ## H. Retrospectiva
 
-_A ser preenchida ao final da sprint._
+**O que funcionou bem?**
+- Chamar `base.CalcularAluguel(dias)` nas subclasses evitou duplicar a regra e a validação de `dias`: cada subclasse só tem a diferença do seu tipo.
+- O cálculo da `Locacao` isolado em `CalcularValorTotal()` na Sprint 2 permitiu trocar para o cálculo polimórfico mudando uma única linha.
+- A ordem de integração planejada (T3.1 antes das demais e a T3.5 depois do `Patinete`) evitou conflitos entre as branches.
+- Os testes da Sprint 3 foram escritos a partir dos critérios de aceitação, com os valores definidos no planejamento.
 
-- **O que funcionou bem?**
-- **Quais foram as principais dificuldades?**
-- **O planejamento foi adequado ao esforço necessário?**
-- **Decisões revistas**
-- **O que deverá ser melhorado na próxima sprint?**
+**Quais foram as principais dificuldades?**
+- O planejamento só entrou na `main` em 22/11, último dia do período previsto. Com isso, o desenvolvimento começou atrasado e a sprint terminou em 27/11.
+- As tarefas T3.3, T3.5 e T3.6 tiveram de ser redistribuídas no fim da sprint e foram executadas por um único integrante.
+- Os PRs empilhados (um criado sobre a branch do outro) causaram um problema: ao apagar a branch-base no merge do #29, o GitHub fechou o #30 em vez de mudar a base para a `main`, e foi preciso abrir o #32.
+
+**O planejamento foi adequado ao esforço necessário?**
+Quanto ao escopo e às estimativas, sim: as tarefas eram pequenas e as regras de negócio estavam definidas, o que facilitou a implementação e os testes. Quanto ao prazo, não: o período de 4 dias, com o planejamento integrado no último dia, não foi suficiente, e a sprint passou 5 dias do previsto.
+
+**Decisões revistas**
+- O teste da `Locacao` com `Carro` foi atualizado já na T3.4, e não na T3.6 como previa a issue #22, para a `main` não ficar com teste reprovado.
+- Com o contador movido para as subclasses (T3.5), um `Veiculo` criado diretamente deixou de ser contado. O teste do contador da Sprint 2 foi ajustado. Isso antecipa a Sprint 4, em que `Veiculo` passa a ser abstrata.
+- As tarefas T3.3, T3.5 e T3.6 foram redistribuídas entre os integrantes.
+
+**O que deverá ser melhorado na próxima sprint?**
+- Integrar o planejamento na `main` no primeiro dia da sprint.
+- Evitar PRs empilhados; quando forem necessários, mudar a base para `main` antes de apagar a branch-base.
+- Acompanhar o quadro no meio da sprint para redistribuir tarefas mais cedo quando um integrante estiver sem disponibilidade.
