@@ -4,15 +4,6 @@ namespace UrbanDrive.ConsoleApp
 {
     internal class Program
     {
-        // Veiculo é abstrata (Sprint 4). Subclasse mínima, só para testar as regras da base
-        private sealed class VeiculoTeste : Veiculo
-        {
-            public VeiculoTeste(string identificador, string placa, string modelo, decimal valorBaseDiaria)
-                : base(identificador, placa, modelo, valorBaseDiaria)
-            {
-            }
-        }
-
         // Placar dos testes
         private static int aprovados = 0;
         private static int reprovados = 0;
@@ -42,7 +33,7 @@ namespace UrbanDrive.ConsoleApp
             Console.WriteLine();
 
             Console.WriteLine("--- Criação de objetos válidos ---");
-            var mobi = new VeiculoTeste("V001", "ABC-1234", "Fiat Mobi", 90.00m);
+            var mobi = new Veiculo("V001", "ABC-1234", "Fiat Mobi", 90.00m);
             var onix = new Carro("V002", "bra2e19", "Chevrolet Onix", 120.00m, 4, "Flex");
             Console.WriteLine(mobi);
             Console.WriteLine(onix);
@@ -50,21 +41,21 @@ namespace UrbanDrive.ConsoleApp
 
             Console.WriteLine("--- Normalização e alteração válida ---");
             Verificar("Placa ' abc-1234 ' é armazenada como 'ABC1234'",
-                new VeiculoTeste("V003", " abc-1234 ", "Fiat Uno", 80m).Placa == "ABC1234");
+                new Veiculo("V003", " abc-1234 ", "Fiat Uno", 80m).Placa == "ABC1234");
             Verificar("Placa Mercosul 'bra2e19' é armazenada como 'BRA2E19'", onix.Placa == "BRA2E19");
             mobi.ValorBaseDiaria = 95.50m;
             Verificar("Reajuste da diária para 95,50 é aceito", mobi.ValorBaseDiaria == 95.50m);
             Console.WriteLine();
 
             Console.WriteLine("--- Validações (devem ser rejeitadas) ---");
-            DeveFalhar("Placa vazia", () => new VeiculoTeste("V010", "", "Carro Teste", 50m));
-            DeveFalhar("Placa nula", () => new VeiculoTeste("V011", null!, "Carro Teste", 50m));
-            DeveFalhar("Placa só com espaços", () => new VeiculoTeste("V012", "   ", "Carro Teste", 50m));
-            DeveFalhar("Placa fora do padrão", () => new VeiculoTeste("V013", "12-ABC", "Carro Teste", 50m));
-            DeveFalhar("Identificador vazio", () => new VeiculoTeste("", "ABC1234", "Carro Teste", 50m));
-            DeveFalhar("Modelo vazio", () => new VeiculoTeste("V014", "ABC1234", "  ", 50m));
-            DeveFalhar("Diária zero", () => new VeiculoTeste("V015", "ABC1234", "Carro Teste", 0m));
-            DeveFalhar("Diária negativa", () => new VeiculoTeste("V016", "ABC1234", "Carro Teste", -10m));
+            DeveFalhar("Placa vazia", () => new Veiculo("V010", "", "Carro Teste", 50m));
+            DeveFalhar("Placa nula", () => new Veiculo("V011", null!, "Carro Teste", 50m));
+            DeveFalhar("Placa só com espaços", () => new Veiculo("V012", "   ", "Carro Teste", 50m));
+            DeveFalhar("Placa fora do padrão", () => new Veiculo("V013", "12-ABC", "Carro Teste", 50m));
+            DeveFalhar("Identificador vazio", () => new Veiculo("", "ABC1234", "Carro Teste", 50m));
+            DeveFalhar("Modelo vazio", () => new Veiculo("V014", "ABC1234", "  ", 50m));
+            DeveFalhar("Diária zero", () => new Veiculo("V015", "ABC1234", "Carro Teste", 0m));
+            DeveFalhar("Diária negativa", () => new Veiculo("V016", "ABC1234", "Carro Teste", -10m));
             DeveFalhar("Alterar modelo para vazio", () => { mobi.Modelo = ""; });
             DeveFalhar("Alterar diária para negativa", () => { mobi.ValorBaseDiaria = -1m; });
             DeveFalhar("Carro sem portas", () => new Carro("V017", "ABC1234", "Carro Teste", 50m, 0, "Flex"));
@@ -90,7 +81,7 @@ namespace UrbanDrive.ConsoleApp
 
             int totalAntesDoInvalido = ConfiguradorSistema.TotalVeiculosCadastrados;
             DeveFalhar("Criar veículo com placa vazia é rejeitado",
-                () => new VeiculoTeste("V102", "", "Carro Teste", 50m));
+                () => new Veiculo("V102", "", "Carro Teste", 50m));
             Verificar("Veículo rejeitado não aumenta o contador",
                 ConfiguradorSistema.TotalVeiculosCadastrados == totalAntesDoInvalido);
             Console.WriteLine($"Veículos cadastrados agora: {ConfiguradorSistema.TotalVeiculosCadastrados}");
@@ -122,7 +113,7 @@ namespace UrbanDrive.ConsoleApp
 
             Console.WriteLine("--- Criação e adição de veículos ---");
             var frota = new Frota("Frota Centro");
-            var gol = new VeiculoTeste("F001", "JKL-2345", "VW Gol", 95m);
+            var gol = new Veiculo("F001", "JKL-2345", "VW Gol", 95m);
             var argo = new Carro("F002", "MNO6P78", "Fiat Argo", 115m, 4, "Flex");
 
             frota.AdicionarVeiculo(gol);
@@ -140,7 +131,7 @@ namespace UrbanDrive.ConsoleApp
             DeveFalhar("Adicionar veículo nulo", () => frota.AdicionarVeiculo(null!));
             DeveFalhar("Adicionar o mesmo veículo duas vezes", () => frota.AdicionarVeiculo(gol));
             DeveFalhar("Adicionar outro veículo com placa repetida",
-                () => frota.AdicionarVeiculo(new VeiculoTeste("F003", "JKL2345", "Outro Gol", 90m)));
+                () => frota.AdicionarVeiculo(new Veiculo("F003", "JKL2345", "Outro Gol", 90m)));
             Verificar("Após as tentativas inválidas, a frota continua com 2 veículos", frota.Quantidade == 2);
             Verificar("A lista exposta é somente leitura",
                 ((ICollection<Veiculo>)frota.Veiculos).IsReadOnly);
@@ -233,7 +224,7 @@ namespace UrbanDrive.ConsoleApp
 
             var dataRetirada = new DateTime(2026, 11, 14);
             var maria = new Motorista("Maria Souza", "98765432100", "B", new DateTime(2028, 6, 30));
-            var kwid = new VeiculoTeste("L001", "QRS-1234", "Renault Kwid", 100m);
+            var kwid = new Veiculo("L001", "QRS-1234", "Renault Kwid", 100m);
             var hb20 = new Carro("L002", "TUV5W67", "Hyundai HB20", 150m, 4, "Flex");
 
             var frota = new Frota("Frota Locação");
@@ -294,12 +285,12 @@ namespace UrbanDrive.ConsoleApp
             Console.WriteLine("##### Sprint 3: CalcularAluguel (polimorfismo) #####");
             Console.WriteLine();
 
-            var veiculo = new VeiculoTeste("A001", "AAA1A11", "Veículo Base", 100m); // regra base de Veiculo
+            var veiculo = new Veiculo("A001", "AAA1A11", "Veículo Base", 100m);
             var carro = new Carro("A002", "BBB2B22", "Fiat Cronos", 100m, 4, "Flex");
             var patinete = new Patinete("A003", "CCC3C33", "Xiaomi Scooter 4", 40m, 35);
 
             Console.WriteLine("--- Regra de cada tipo ---");
-            Verificar("Regra base de Veiculo: R$ 100,00 x 3 dias = R$ 300,00", veiculo.CalcularAluguel(3) == 300.00m);
+            Verificar("Veiculo: R$ 100,00 x 3 dias = R$ 300,00", veiculo.CalcularAluguel(3) == 300.00m);
             Verificar("Carro: R$ 100,00 x 3 dias x 1,05 (seguro) = R$ 315,00", carro.CalcularAluguel(3) == 315.00m);
             Verificar("Patinete: R$ 40,00 x 2 dias = R$ 80,00 (sem desconto)", patinete.CalcularAluguel(2) == 80.00m);
             Verificar("Patinete: R$ 40,00 x 3 dias x 0,90 = R$ 108,00 (desconto a partir de 3 dias)",
