@@ -9,9 +9,9 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | PBI-03 | RF04 | `Frota` (agregação com `Veiculo`) | Alta | PBI-01 | 2 | 5h | ✔️ Concluído |
 | PBI-04 | RF07 | `ConfiguradorSistema` (membros estáticos) | Média | PBI-01 | 2 | 4h | ✔️ Concluído |
 | PBI-05 | RF05 | `Locacao` (associação Motorista–Veiculo) | Média | PBI-01, PBI-02 | 2 | 5h | ✔️ Concluído |
-| PBI-06 | RF02 | `Carro` e `Patinete` (herança, `sealed`) | Alta | PBI-01 | 3 | 6h | 🔄 Em andamento |
-| PBI-07 | RF05 | `CalcularAluguel(int dias)` polimórfico | Alta | PBI-06 | 3 | 6h | 🔄 Em andamento |
-| PBI-08 | RF06 | Manutenção (sobrecarga de `RealizarManutencao`) | Média | PBI-06 | 3 | 4h | 🔄 Em andamento |
+| PBI-06 | RF02 | `Carro` e `Patinete` (herança, `sealed`) | Alta | PBI-01 | 3 | 6h | ✔️ Concluído |
+| PBI-07 | RF05 | `CalcularAluguel(int dias)` polimórfico | Alta | PBI-06 | 3 | 6h | ✔️ Concluído |
+| PBI-08 | RF06 | Manutenção (sobrecarga de `RealizarManutencao`) | Média | PBI-06 | 3 | 4h | ✔️ Concluído |
 | PBI-09 | RF08 | `IImprimivel` e relatórios | Média | PBI-06 | 4 | 5h | ⏳ Não iniciado |
 | PBI-10 | RF09 | `IEletrico` e `CarroEletrico` | Média | PBI-06 | 4 | 5h | ⏳ Não iniciado |
 | PBI-11 | RF10 | Menu de console (cadastro e consulta) | Alta | PBI-01 a PBI-10 | 4 | 8h | ⏳ Não iniciado |
@@ -42,4 +42,8 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | 22/11/2026 | PBI-07 e PBI-08 em andamento: `CalcularAluguel` virtual e sobrecarga de `RealizarManutencao` em `Veiculo` | Entrega da T3.1 (PR #29). |
 | 26/11/2026 | PBI-06 e PBI-07 em andamento: `Carro` sobrescreve `CalcularAluguel` e `Locacao` usa o cálculo polimórfico | Entrega da T3.2 e da T3.4 (branch `feature/carro-aluguel`). |
 | 26/11/2026 | Sprint 3 passou do período previsto (até 22/11) | `Patinete` (T3.3), correção do contador (T3.5) e testes da sprint (T3.6) ainda pendentes. PBI-06 a PBI-08 continuam em andamento até essas tarefas serem concluídas. |
+| 27/11/2026 | T3.1, T3.2 e T3.4 integradas na `main` (PRs #29 e #32; o #32 substitui o #30) | Integração das entregas da Sprint 3. |
+| 27/11/2026 | PBI-06 concluído: `Patinete` `sealed` (PR #33) e contador corrigido (PR #34) | Entrega da T3.3 e da T3.5. |
+| 27/11/2026 | PBI-07 e PBI-08 concluídos: testes da Sprint 3 (PR #35, 88 aprovados, 0 reprovados) | Entrega da T3.6. |
+| 27/11/2026 | Encerramento da Sprint 3 | Todos os itens selecionados (PBI-06 a PBI-08) concluídos, 5 dias após o período previsto. |
 | --/--/2026 | _(registrar as próximas alterações)_ | |
