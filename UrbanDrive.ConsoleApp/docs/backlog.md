@@ -46,4 +46,5 @@ Backlog priorizado, derivado dos requisitos funcionais RF01 a RF10 do enunciado.
 | 27/11/2026 | PBI-06 concluído: `Patinete` `sealed` (PR #33) e contador corrigido (PR #34) | Entrega da T3.3 e da T3.5. |
 | 27/11/2026 | PBI-07 e PBI-08 concluídos: testes da Sprint 3 (PR #35, 88 aprovados, 0 reprovados) | Entrega da T3.6. |
 | 27/11/2026 | Encerramento da Sprint 3 | Todos os itens selecionados (PBI-06 a PBI-08) concluídos, 5 dias após o período previsto. |
+| 27/11/2026 | Implementação antecipada da Sprint 4 (PRs #46 a #53) revertida | A Sprint 4 foi iniciada antes do planejamento conjunto do grupo. PBI-09 a PBI-12 voltam a "Não iniciado" e serão planejados pelos dois integrantes. |
 | --/--/2026 | _(registrar as próximas alterações)_ | |
