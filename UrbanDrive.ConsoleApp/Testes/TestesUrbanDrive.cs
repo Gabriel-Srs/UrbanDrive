@@ -1,4 +1,6 @@
+using UrbanDrive.ConsoleApp.Interfaces;
 using UrbanDrive.ConsoleApp.Models;
+using UrbanDrive.ConsoleApp.Services;
 
 namespace UrbanDrive.ConsoleApp.Testes
 {
@@ -37,6 +39,10 @@ namespace UrbanDrive.ConsoleApp.Testes
             TestarSprint3Aluguel();
             TestarSprint3Manutencao();
             TestarSprint3Patinete();
+            TestarSprint4Abstracao();
+            TestarSprint4Imprimivel();
+            TestarSprint4Eletrico();
+            TestarSprint4Menu();
 
             Console.WriteLine();
             Console.WriteLine($"Resultado: {aprovados} aprovados, {reprovados} reprovados.");
@@ -398,6 +404,193 @@ namespace UrbanDrive.ConsoleApp.Testes
             new Patinete("P007", "JJJ1J11", "Patinete Válido", 40m, 25);
             Verificar("Patinete válido aumenta o contador em 1",
                 ConfiguradorSistema.TotalVeiculosCadastrados == total + 1);
+            Console.WriteLine();
+        }
+
+        // Sprint 4 - Veiculo abstrata
+        private static void TestarSprint4Abstracao()
+        {
+            Console.WriteLine("##### Sprint 4: Veiculo abstrata #####");
+            Console.WriteLine();
+
+            Verificar("Veiculo é abstrata (new Veiculo(...) não compila)", typeof(Veiculo).IsAbstract);
+            Verificar("Tipo é um membro abstrato implementado por cada subclasse",
+                typeof(Veiculo).GetProperty(nameof(Veiculo.Tipo))!.GetMethod!.IsAbstract);
+
+            var carro = new Carro("S401", "KKK1K11", "Toyota Corolla", 180m, 4, "Híbrido");
+            var eletrico = new CarroEletrico("S402", "LLL2L22", "BYD Dolphin", 200m, 4, 400);
+            var patinete = new Patinete("S403", "MMM3M33", "Xiaomi Scooter 4", 40m, 35);
+            Verificar("Tipos: Carro, Carro elétrico e Patinete",
+                carro.Tipo == "Carro" && eletrico.Tipo == "Carro elétrico" && patinete.Tipo == "Patinete");
+            Verificar("CarroEletrico é um Carro e um Veiculo (herança em dois níveis)", eletrico is Carro && eletrico is Veiculo);
+            DeveFalhar("Validação herdada continua valendo (placa inválida no CarroEletrico)",
+                () => new CarroEletrico("S404", "XX-1", "Carro Teste", 200m, 4, 300));
+            Console.WriteLine();
+
+            Console.WriteLine("--- Cálculos polimórficos com a hierarquia final ---");
+            var veiculos = new List<Veiculo> { carro, eletrico, patinete };
+            var esperados = new List<decimal> { 378.00m, 420.00m, 80.00m };
+            for (int i = 0; i < veiculos.Count; i++)
+            {
+                decimal valor = veiculos[i].CalcularAluguel(2);
+                Console.WriteLine($"  {veiculos[i].Tipo,-15} | 2 dias | R$ {valor:F2}");
+                Verificar($"{veiculos[i].Tipo} por 2 dias = R$ {esperados[i]:F2}", valor == esperados[i]);
+            }
+            Console.WriteLine();
+        }
+
+        // Sprint 4 - IImprimivel
+        private static void TestarSprint4Imprimivel()
+        {
+            Console.WriteLine("##### Sprint 4: IImprimivel #####");
+            Console.WriteLine();
+
+            var carro = new Carro("R401", "NNN4N44", "VW Polo", 130m, 4, "Flex");
+            var eletrico = new CarroEletrico("R402", "OOO5O55", "Renault Kwid E-Tech", 150m, 4, 250, 40);
+            var patinete = new Patinete("R403", "PPP6P66", "Segway Ninebot", 45m, 40);
+            var frota = new Frota("Frota Relatórios");
+            frota.AdicionarVeiculo(carro);
+            frota.AdicionarVeiculo(eletrico);
+            frota.AdicionarVeiculo(patinete);
+            var motorista = new Motorista("Bruno Lima", "99988877766", "B", new DateTime(2030, 5, 20));
+            var locacao = new Locacao(motorista, eletrico, 2, new DateTime(2026, 11, 27));
+
+            // Polimorfismo por interface: a mesma chamada para objetos de tipos diferentes
+            var imprimiveis = new List<IImprimivel> { carro, eletrico, patinete, frota, locacao };
+            Verificar("Veículos, Frota e Locacao são IImprimivel", imprimiveis.Count == 5);
+            foreach (IImprimivel imprimivel in imprimiveis)
+            {
+                Console.WriteLine(imprimivel.GerarRelatorio());
+                Console.WriteLine();
+            }
+
+            string relCarro = carro.GerarRelatorio();
+            Verificar("Relatório do Carro tem tipo, placa, modelo, diária, portas e combustível",
+                relCarro.Contains("Tipo: Carro") && relCarro.Contains("NNN4N44") && relCarro.Contains("VW Polo") &&
+                relCarro.Contains("130,00") && relCarro.Contains("Portas: 4") && relCarro.Contains("Combustível: Flex"));
+
+            string relEletrico = eletrico.GerarRelatorio();
+            Verificar("Relatório do CarroEletrico tem os dados do Carro e da bateria",
+                relEletrico.Contains("Portas: 4") && relEletrico.Contains("Elétrico") &&
+                relEletrico.Contains("250 km") && relEletrico.Contains("40%"));
+
+            string relPatinete = patinete.GerarRelatorio();
+            Verificar("Relatório do Patinete tem autonomia e desconto, sem portas",
+                relPatinete.Contains("40 km") && relPatinete.Contains("Desconto") && !relPatinete.Contains("Portas"));
+
+            string relFrota = frota.GerarRelatorio();
+            Verificar("Relatório da Frota lista os 3 veículos",
+                relFrota.Contains("Veículos: 3") && relFrota.Contains("NNN4N44") &&
+                relFrota.Contains("OOO5O55") && relFrota.Contains("PPP6P66"));
+            Verificar("Relatório da Frota vazia informa que não há veículos",
+                new Frota("Vazia").GerarRelatorio().Contains("nenhum veículo"));
+
+            string relLocacao = locacao.GerarRelatorio();
+            Verificar("Relatório da Locacao tem motorista, placa, dias e total (R$ 315,00 x 1,10 = R$ 346,50)",
+                relLocacao.Contains("Bruno Lima") && relLocacao.Contains("OOO5O55") &&
+                relLocacao.Contains("Dias: 2") && relLocacao.Contains("346,50"));
+            Console.WriteLine();
+        }
+
+        // Sprint 4 - IEletrico, Bateria e CarroEletrico
+        private static void TestarSprint4Eletrico()
+        {
+            Console.WriteLine("##### Sprint 4: IEletrico e CarroEletrico #####");
+            Console.WriteLine();
+
+            var eletrico = new CarroEletrico("E401", "QQQ7Q77", "BYD Dolphin", 200m, 4, 400, 30);
+            var patinete = new Patinete("E402", "RRR8R88", "Xiaomi Scooter 4", 40m, 35, 15);
+            var carro = new Carro("E403", "SSS9S99", "Fiat Argo", 115m, 4, "Flex");
+
+            Verificar("CarroEletrico é IEletrico", eletrico is IEletrico);
+            Verificar("Patinete é IEletrico", patinete is IEletrico);
+            Verificar("Carro a combustão não é IEletrico", !(carro is IEletrico));
+            Verificar("Combustível do CarroEletrico é fixo: Elétrico", eletrico.TipoCombustivel == "Elétrico");
+            Verificar("CarroEletrico R$ 200,00 x 2 dias = R$ 420,00 (regra herdada do Carro)",
+                eletrico.CalcularAluguel(2) == 420.00m);
+            Console.WriteLine();
+
+            Console.WriteLine("--- Recarga (mesma chamada para os dois elétricos) ---");
+            var eletricos = new List<IEletrico> { eletrico, patinete };
+            foreach (IEletrico item in eletricos)
+            {
+                int cargaAntes = item.CargaBateriaPercentual;
+                string mensagem = item.Recarregar();
+                Console.WriteLine($"  {mensagem}");
+                Verificar($"Recarga de {cargaAntes}% para 100%", item.CargaBateriaPercentual == 100);
+            }
+            Verificar("Mensagem da recarga tem a placa", eletrico.Recarregar().Contains("QQQ7Q77"));
+            Console.WriteLine();
+
+            Console.WriteLine("--- Validações da bateria ---");
+            DeveFalhar("Carga acima de 100%", () => new CarroEletrico("E404", "TTT1T11", "Carro Teste", 200m, 4, 300, 101));
+            DeveFalhar("Carga negativa", () => new Patinete("E405", "UUU2U22", "Patinete Teste", 40m, 30, -1));
+            DeveFalhar("Autonomia zero no CarroEletrico", () => new CarroEletrico("E406", "VVV3V33", "Carro Teste", 200m, 4, 0));
+            DeveFalhar("Bateria com autonomia negativa", () => new Bateria(-5));
+
+            int total = ConfiguradorSistema.TotalVeiculosCadastrados;
+            DeveFalhar("CarroEletrico com bateria inválida", () => new CarroEletrico("E407", "WWW4W44", "Carro Teste", 200m, 4, 0));
+            Verificar("CarroEletrico rejeitado não aumenta o contador", ConfiguradorSistema.TotalVeiculosCadastrados == total);
+            new CarroEletrico("E408", "XXX5X55", "Carro Válido", 200m, 4, 300);
+            Verificar("CarroEletrico válido aumenta o contador em 1 (uma única vez)",
+                ConfiguradorSistema.TotalVeiculosCadastrados == total + 1);
+            Console.WriteLine();
+        }
+
+        // Sprint 4 - Menu de console com digitação simulada
+        private static void TestarSprint4Menu()
+        {
+            Console.WriteLine("##### Sprint 4: Menu de console (entrada simulada) #####");
+            Console.WriteLine();
+
+            var locadora = new LocadoraService(new Frota("Frota Menu"));
+            string digitado = string.Join("\n",
+                "1", "M401", "abc-1d23", "VW Polo", "130,50", "4", "Flex",        // cadastrar carro
+                "2", "M402", "DEF4G56", "BYD Dolphin", "200", "4", "400", "50",   // cadastrar carro elétrico
+                "3", "M403", "GHI7J89", "Xiaomi Scooter 4", "40", "35", "20",     // cadastrar patinete
+                "3", "M404", "", "Patinete Teste", "40", "35", "100",             // placa vazia (erro)
+                "1", "M405", "ABC1D23", "Outro Polo", "abc",                       // diária inválida (erro)
+                "4",                                                               // listar
+                "5", "def4g56",                                                    // consultar por placa
+                "5", "ZZZ9Z99",                                                    // placa inexistente (erro)
+                "6", "3",                                                          // simular aluguel
+                "7", "Carla Dias", "12312312312", "B", "15/08/2030", "ABC1D23", "2", // locação
+                "8", "ABC1D23", "",                                                // manutenção geral
+                "8", "GHI7J89", "pneu",                                            // manutenção com peça
+                "9", "GHI7J89",                                                    // recarregar patinete
+                "9", "ABC1D23",                                                    // recarregar carro (erro)
+                "10",                                                              // relatórios
+                "11", "DEF4G56",                                                   // remover
+                "99",                                                              // opção inválida
+                "0");
+            var saida = new StringWriter();
+            new MenuConsole(locadora, new StringReader(digitado), saida).Executar();
+            string texto = saida.ToString();
+
+            Verificar("Cadastra Carro, Carro Elétrico e Patinete pelo menu", texto.Split("Cadastrado:").Length - 1 == 3);
+            Verificar("Placa vazia mostra a mensagem da validação", texto.Contains("Erro: A placa não pode ser nula ou vazia."));
+            Verificar("Diária não numérica mostra erro e o menu continua", texto.Contains("Erro: 'abc' não é um valor numérico válido."));
+            Verificar("Consulta por placa (minúsculas) mostra o relatório do veículo",
+                texto.Contains("=== Relatório do veículo DEF4G56 ==="));
+            Verificar("Consulta de placa inexistente mostra erro", texto.Contains("Nenhum veículo com a placa 'ZZZ9Z99'"));
+            Verificar("Simulação de 3 dias: Carro R$ 411,08, Carro elétrico R$ 630,00 e Patinete R$ 108,00",
+                texto.Contains("411,08") && texto.Contains("630,00") && texto.Contains("108,00"));
+            Verificar("Locação registrada pelo menu: R$ 274,05 x 1,10 = R$ 301,46",
+                locadora.Locacoes.Count == 1 && texto.Contains("Total: R$ 301,46"));
+            Verificar("Manutenção sem peça e com peça (sobrecarga)",
+                texto.Contains("Manutenção geral realizada no veículo ABC1D23.") &&
+                texto.Contains("GHI7J89: pneu substituída."));
+            Verificar("Recarga do patinete de 20% para 100%", texto.Contains("bateria de 20% para 100%"));
+            Verificar("Carro a combustão não pode ser recarregado", texto.Contains("não é elétrico"));
+            Verificar("Relatórios incluem frota, veículos e locação",
+                texto.Contains("=== Relatório da frota Frota Menu ===") && texto.Contains("=== Relatório da locação ==="));
+            Verificar("Remoção pelo menu deixa 2 veículos na frota", locadora.Frota.Quantidade == 2);
+            Verificar("Opção inválida não encerra o menu", texto.Contains("Opção '99' inválida.") && texto.TrimEnd().EndsWith("Até logo!"));
+
+            var vazio = new StringWriter();
+            new MenuConsole(new LocadoraService(new Frota("Frota Vazia")), new StringReader("4\n1\nM501"), vazio).Executar();
+            Verificar("Fim da entrada no meio de um cadastro encerra o menu sem erro",
+                vazio.ToString().Contains("Nenhum veículo cadastrado.") && vazio.ToString().TrimEnd().EndsWith("Até logo!"));
             Console.WriteLine();
         }
 
