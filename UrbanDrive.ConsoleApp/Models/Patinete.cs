@@ -1,38 +1,44 @@
+using UrbanDrive.ConsoleApp.Interfaces;
+
 namespace UrbanDrive.ConsoleApp.Models
 {
-    // sealed: nenhuma classe pode herdar de Patinete (RF02)
-    public sealed class Patinete : Veiculo
+    // sealed: nenhuma classe pode herdar de Patinete (RF02); elétrico (RF09)
+    public sealed class Patinete : Veiculo, IEletrico
     {
         // Desconto de 10% a partir de 3 dias
         public const int DiasMinimosDesconto = 3;
         public const decimal DescontoLongoPeriodo = 0.10m;
 
         // Atributos
-        private int autonomiaBateriaKm;
+        private readonly Bateria bateria;
 
         // Construtor
         public Patinete(string identificador, string placa, string modelo, decimal valorBaseDiaria,
-                        int autonomiaBateriaKm)
+                        int autonomiaBateriaKm, int cargaBateriaPercentual = Bateria.CargaMaxima)
             : base(identificador, placa, modelo, valorBaseDiaria)
         {
-            AutonomiaBateriaKm = autonomiaBateriaKm;
+            bateria = new Bateria(autonomiaBateriaKm, cargaBateriaPercentual);
 
             // Contador de veículos: só depois de todas as validações
             ConfiguradorSistema.RegistrarVeiculo();
         }
 
-        // Propriedades
+        // Propriedades (IEletrico)
         public int AutonomiaBateriaKm
         {
-            get { return autonomiaBateriaKm; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(AutonomiaBateriaKm), value,
-                        "A autonomia da bateria deve ser maior que zero (km).");
+            get { return bateria.AutonomiaKm; }
+            set { bateria.AutonomiaKm = value; }
+        }
 
-                autonomiaBateriaKm = value;
-            }
+        public int CargaBateriaPercentual
+        {
+            get { return bateria.CargaPercentual; }
+        }
+
+        // Tipo (membro abstrato de Veiculo)
+        public override string Tipo
+        {
+            get { return "Patinete"; }
         }
 
         // Métodos
@@ -47,23 +53,23 @@ namespace UrbanDrive.ConsoleApp.Models
             return valor;
         }
 
-        // Tipo (membro abstrato de Veiculo)
-        public override string Tipo
+        // IEletrico
+        public string Recarregar()
         {
-            get { return "Patinete"; }
+            return bateria.Recarregar($"{Tipo} {Placa}");
         }
 
         // Dados próprios no relatório (IImprimivel)
         protected override IEnumerable<string> DetalhesRelatorio()
         {
-            yield return $"Autonomia da bateria: {AutonomiaBateriaKm} km";
+            yield return $"Bateria: {bateria}";
             yield return $"Desconto: {DescontoLongoPeriodo:P0} a partir de {DiasMinimosDesconto} dias";
         }
 
         // Exibição
         public override string ToString()
         {
-            return $"[{Tipo}] {base.ToString()} | Autonomia: {AutonomiaBateriaKm} km";
+            return $"[{Tipo}] {base.ToString()} | {bateria}";
         }
     }
 }
