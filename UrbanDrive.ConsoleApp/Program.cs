@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using UrbanDrive.ConsoleApp.Services;
 using UrbanDrive.ConsoleApp.Testes;
@@ -13,10 +12,6 @@ namespace UrbanDrive.ConsoleApp
             // Acentos corretos no terminal do Windows
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
-
-            // Valores em reais e datas no padrão brasileiro em qualquer máquina
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR");
-            CultureInfo.CurrentCulture = new CultureInfo("pt-BR");
 
             // dotnet run -- --testes: executa os testes (código de saída 0 se todos passarem)
             if (args.Contains("--testes"))
