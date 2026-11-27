@@ -14,6 +14,9 @@ namespace UrbanDrive.ConsoleApp.Models
         {
             QuantidadePortas = quantidadePortas;
             TipoCombustivel = tipoCombustivel;
+
+            // Contador de veículos: só depois de todas as validações
+            ConfiguradorSistema.RegistrarVeiculo();
         }
 
         // Propriedades

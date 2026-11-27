@@ -70,9 +70,10 @@ namespace UrbanDrive.ConsoleApp
             int totalAntes = ConfiguradorSistema.TotalVeiculosCadastrados;
             Console.WriteLine($"Veículos cadastrados até agora: {totalAntes}");
 
-            new Veiculo("V100", "DEF5678", "Renault Kwid", 85m);
+            // Sprint 3 (T3.5): o contador passou para Carro e Patinete
+            new Patinete("V100", "DEF5678", "Xiaomi Scooter 4", 40m, 35);
             new Carro("V101", "GHI9J01", "Hyundai HB20", 110m, 4, "Flex");
-            Verificar("Criar 2 veículos válidos (Veiculo e Carro) aumenta o contador em 2",
+            Verificar("Criar 2 veículos válidos (Carro e Patinete) aumenta o contador em 2",
                 ConfiguradorSistema.TotalVeiculosCadastrados == totalAntes + 2);
 
             int totalAntesDoInvalido = ConfiguradorSistema.TotalVeiculosCadastrados;
