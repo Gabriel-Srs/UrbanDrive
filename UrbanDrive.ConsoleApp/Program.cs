@@ -1,5 +1,3 @@
-using System.Text;
-using UrbanDrive.ConsoleApp.Services;
 using UrbanDrive.ConsoleApp.Testes;
 
 namespace UrbanDrive.ConsoleApp
@@ -9,18 +7,11 @@ namespace UrbanDrive.ConsoleApp
     {
         static int Main(string[] args)
         {
-            // Acentos corretos no terminal do Windows
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.InputEncoding = Encoding.UTF8;
-
-            // dotnet run -- --testes: executa os testes (código de saída 0 se todos passarem)
+            // dotnet run -- --testes
             if (args.Contains("--testes"))
                 return TestesUrbanDrive.Executar() == 0 ? 0 : 1;
 
-            // dotnet run: abre o menu com uma frota de demonstração
-            var locadora = new LocadoraService(DadosDemonstracao.CriarFrota());
-            new MenuConsole(locadora, Console.In, Console.Out).Executar();
-            return 0;
+            return TestesUrbanDrive.Executar() == 0 ? 0 : 1;
         }
     }
 }

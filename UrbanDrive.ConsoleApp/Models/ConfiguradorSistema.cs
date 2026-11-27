@@ -30,13 +30,7 @@ namespace UrbanDrive.ConsoleApp.Models
             get { return totalVeiculosCadastrados; }
         }
 
-        // Aplica a taxa de serviço sobre um valor (usado pela Locacao e pela simulação do menu)
-        public static decimal AplicarTaxaServico(decimal valor)
-        {
-            return valor * (1 + TaxaServico);
-        }
-
-        // Usado pelos construtores de Carro e Patinete
+        // Usado pelo construtor de Veiculo
         internal static void RegistrarVeiculo()
         {
             totalVeiculosCadastrados++;
