@@ -1,6 +1,6 @@
 # Diagrama de classes — UrbanDrive
 
-Versão atual: **Sprint 2** (relacionamentos entre objetos e membros estáticos).
+Versão atual: **Sprint 3, parcial** (herança e polimorfismo em `Veiculo` e `Carro`; `Patinete` ainda pendente, T3.3).
 
 O histórico deste arquivo no repositório mostra a evolução do diagrama a cada sprint.
 
@@ -19,15 +19,20 @@ classDiagram
         +string Placa
         +string Modelo
         +decimal ValorBaseDiaria
+        +CalcularAluguel(int dias) decimal
+        +RealizarManutencao() string
+        +RealizarManutencao(string pecaSubstituida) string
         +ToString() string
     }
 
     class Carro {
+        +decimal AcrescimoSeguro$
         -int quantidadePortas
         -string tipoCombustivel
         +Carro(identificador, placa, modelo, valorBaseDiaria, quantidadePortas, tipoCombustivel)
         +int QuantidadePortas
         +string TipoCombustivel
+        +CalcularAluguel(int dias) decimal
         +ToString() string
     }
 
@@ -111,6 +116,8 @@ classDiagram
 ## Relacionamentos
 
 - **Herança — `Carro` → `Veiculo`:** `Carro` reaproveita os dados e as validações de `Veiculo` e repassa os valores comuns pelo construtor com `base`.
+- **Sobrescrita e polimorfismo — `CalcularAluguel(int dias)`:** `Veiculo` define o método como `virtual` (diária × dias). `Carro` o sobrescreve com `override`, chamando `base.CalcularAluguel(dias)` e aplicando 5% de seguro, sem repetir a regra nem a validação. `Locacao` chama `Veiculo.CalcularAluguel(Dias)` sem saber o tipo real do veículo.
+- **Sobrecarga — `RealizarManutencao`:** `Veiculo` tem duas versões do método, sem parâmetro e com `string pecaSubstituida`, herdadas por todas as subclasses.
 - **Agregação — `Frota` ◇ `Veiculo`:** os veículos são criados fora da frota e apenas adicionados a ela. Ao serem removidos, continuam existindo e podem entrar em outra frota.
 - **Composição — `Motorista` ◆ `CNH`:** a `CNH` é criada dentro do construtor de `Motorista`, a partir dos dados recebidos, e não pode ser trocada por fora. O construtor da `CNH` é `internal`, indicando que ela não deve ser criada de forma independente.
 - **Associação — `Locacao` → `Motorista` e `Veiculo`:** a locação referencia um motorista e um veículo que existem independentemente dela. Ao ser criada, rejeita motorista com CNH vencida na data de retirada.
@@ -120,8 +127,9 @@ classDiagram
 
 | Classe | Sprint | Situação |
 |---|---|---|
-| `Veiculo` | 1 | Implementada |
-| `Carro` | 1 (protótipo da Sprint 3) | Implementada |
+| `Veiculo` | 1 (métodos polimórficos na Sprint 3) | Implementada |
+| `Carro` | 1 (sobrescrita na Sprint 3) | Implementada |
+| `Patinete` (`sealed`) | 3 | Pendente (T3.3) |
 | `ConfiguradorSistema` | 2 | Implementada |
 | `Frota` | 2 | Implementada |
 | `Motorista` | 2 | Implementada |
